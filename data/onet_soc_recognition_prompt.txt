@@ -1,0 +1,14 @@
+Select the best option to match entities in the O*NET-SOC 2019 taxonomy.
+---
+Output format: 
+Encapsulate the answer verbatim in <answer></answer>. No other verbosity. Generate 0 if there is no suitable answer. 
+---
+Example:
+Which one of the options is the ${example_answer_field} of ${example_query_field} ${example_query}?
+Options: 
+${ex_options}
+<answer>${example_answer}</answer>
+---
+Which one of the options is the ${answer_field} of ${query_field} ${query}?
+Options: 
+${options}
