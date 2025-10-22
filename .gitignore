@@ -1,0 +1,38 @@
+# --- Ignore everything by default ---
+*
+
+# --- Un-ignore .gitignore itself ---
+!.gitignore
+
+# --- Un-ignore all directories so Git can traverse them ---
+!*/
+
+# --- Whitelist specific Python files in /knowledge/ ---
+!/knowledge/run_knowledge_task.py
+!/knowledge/compute_scores.py
+
+# Ignore everything else in /fewsoc/
+knowledge/*
+
+# Ignore everything else in /results/
+results/*
+
+# --- Whitelist README files anywhere ---
+!**/README.md
+
+# --- Whitelist shareable files in /data/ ---
+!/data/onet-soc_2019.csv
+!/data/onet_soc_recall_prompt.cxt
+!/data/onet_soc_recognition_prompt.txt
+
+# --- Ignore notebook checkpoints ---
+**/.ipynb_checkpoints/
+.ipynb_checkpoints/
+
+# --- Ignore temporary folders / files ---
+.tmp.driveupload/
+**/__temp_pipreqsnb_folder/
+
+# --- Ignore logs and other temp files ---
+*.log
+*.tmp
