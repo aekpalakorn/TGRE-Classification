@@ -1,0 +1,147 @@
+# Occupational Knowledge Assessment using Large Language Models
+
+## Overview
+
+This repository contains the source code and resources for the **taxonomy knowledge assessment framework** described in the paper:
+
+**“A Multi-Stage Framework with Taxonomy-Guided Reasoning for Occupation Classification Using Large Language Models.”**
+
+This code base enables reproduction of the *Occupational Knowledge Assessment* experiments in the TGRE-LLM framework. It evaluates LLM’s internalized understanding of the **O*NET-SOC 2019 occupational taxonomy** through recall and recognition tasks.
+
+The repository focuses on the following core capabilities:
+
+* **Taxonomy Recall Test** — Evaluates a model’s ability to generate the correct SOC code or title from memory.
+* **Taxonomy Recognition Test** — Evaluates the model’s ability to select the correct SOC code or title among distractors.
+* **Digit-Level Control** — Allows configurable code granularity (2-, 5-, or 8-digit) to analyze hierarchical taxonomy reasoning.
+
+
+## Important Note for Reproducibility
+
+* This codebase reproduces the original experiment scripts as closely as possible.
+* File paths used in example commands are placeholders. Replace them with your own local paths as needed.
+* Model outputs and evaluation results may vary slightly depending on API version, model updates, or temperature settings.
+
+
+## Repository Structure
+
+| **Directory** | **Content**            | **Description**                                                                                                            |
+| ------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `/knowledge/` | Python modules (`.py`) | Contains runnable scripts for taxonomic knowledge assessment and evaluation.                      |
+| `/data/`      | `.csv` / `.txt` files  | Includes taxonomy reference files (O*NET-SOC 2019), prompt templates, and example input data for recall/recognition tests. |
+
+
+## Taxonomy Knowledge Assessment Framework
+
+The framework is implemented through the **`run_knowledge_task.py`** module. It uses `query_model()` for constructing standardized prompts and `call_api()` for transport across OpenAI GPT, Gemini, and Vertex AI Llama endpoints.
+
+### 1. Run the Recall or Recognition Test
+
+**Example Command:**
+
+```bash
+python run_knowledge_task.py \
+    --task taxonomy_recall \
+    --model gpt-3.5-turbo \
+    --batch_size 1 \
+    --taxonomy_file ../data/onet-soc_2019.csv \
+    --prompt_file ../data/onet_soc_recall_prompt.txt \
+    --log_file ../logs/run.log \
+    --output_csv ../results/results.csv \
+    --raw_output_json ../results/api_responses/responses.json \
+    --query_field code \
+    --answer_field title \
+    --temperature 0.0 \
+    --verbose
+```
+
+**Parameters**
+
+| **Argument**        | **Description**                                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------ |
+| `task`            | Either `taxonomy_recall` or `taxonomy_recognition`.                                        |
+| `taxonomy_file`   | Path to the O*NET-SOC 2019 taxonomy file.                                |
+| `prompt_file`     | Prompt template file used to instruct the model for recall or recognition.                 |
+| `query_field`     | Field in the taxonomy file used as input (e.g., `code`).                                   |
+| `answer_field`    | Field expected in the response (e.g., `title`).                                            |
+| `output_csv`      | CSV file to save structured responses.                                                     |
+| `raw_output_json` | Raw model outputs in JSON format.                                                          |
+| `log_file`        | Logging file for experiment tracking.                                                      |
+| `model`           | LLM to query (e.g., `gpt-4o-mini`, `gemini-2.5-flash`, `meta/llama-3.1-8b-instruct-maas`). |
+| `temperature`     | Generation temperature (default = 0.0).                                                    |
+
+### 2. Evaluate Model Outputs
+
+After running the recall or recognition test, you can compute accuracy and F1 scores using `compute_scores.py`.
+
+**Example Command:**
+
+```bash
+python compute_scores.py \
+    --input_csv ../results/results.csv \
+    --answer_col answer \
+    --ground_truth_col ground_truth \
+    --num_code_digits 8 \
+    --output_csv ../results/evaluation_f1.csv
+```
+
+**Parameters**
+
+| **Argument**         | **Description**                                                                               |
+| -------------------- | --------------------------------------------------------------------------------------------- |
+| `input_csv`        | Path to the CSV file containing model predictions and ground truth.                           |
+| `answer_col`       | Column name in the CSV containing the model’s predicted answers (default: `answer`).          |
+| `ground_truth_col` | Column name in the CSV containing the ground truth labels (default: `ground_truth`).          |
+| `num_code_digits`  | Number of SOC code digits to use for evaluation. Supports 2, 3, 5, 6, or 8 digits. |
+| `output_csv`       | Path to save the per-label F1 score table as CSV (optional).                                  |
+
+## Supported LLM APIs
+
+The repository currently supports three major LLM API families: OpenAI, Google Gemini, Vertex AI's open model MAAS (Model as a Service) endpoints.
+
+
+## Files Description
+
+| **File**                               | **Description**                                                        |
+| -------------------------------------- | ---------------------------------------------------------------------- |
+| `onet-soc_2019.csv`                    | O*NET-SOC 2019 taxonomy (8-digit codes and titles). |
+| `onet_soc_recall_prompt.txt`      | Prompt template for taxonomy recall evaluation.                        |
+| `onet_soc_recognition_prompt.txt` | Prompt template for taxonomy recognition evaluation.                   |
+
+
+## Setup and Installation
+
+### Prerequisites
+
+* Python 3.11 or higher
+* Access credentials for the model API(s) you intend to use (OpenAI, Vertex AI, etc.)
+
+### Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### Requirements File
+
+```
+pandas==2.3.3
+requests==2.31.0
+tenacity==9.1.2
+openai==1.66.3
+google-auth==2.35.0
+google-genai==1.41.0
+protobuf==5.28.3
+```
+
+## Citation
+
+If you use this repository in your work, please cite:
+
+```bibtex
+@article{achananuparp2025multi,
+  title={A Multi-Stage Framework with Taxonomy-Guided Reasoning for Occupation Classification Using Large Language Models},
+  author={Achananuparp, Palakorn and Lim, Ee-Peng and Lu, Yao},
+  journal={arXiv preprint arXiv:2503.12989},
+  year={2025}
+}
+```
