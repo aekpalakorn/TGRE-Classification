@@ -4,15 +4,15 @@
 
 This repository contains the source code and resources for the **taxonomy knowledge assessment framework** described in the paper:
 
-**“A Multi-Stage Framework with Taxonomy-Guided Reasoning for Occupation Classification Using Large Language Models.”**
+**"A Multi-Stage Framework with Taxonomy-Guided Reasoning for Occupation Classification Using Large Language Models."**
 
 This code base enables reproduction of the *Occupational Knowledge Assessment* experiments in the TGRE-LLM framework. It evaluates LLM’s internalized understanding of the **O*NET-SOC 2019 occupational taxonomy** through recall and recognition tasks.
 
 The repository focuses on the following core capabilities:
 
-* **Taxonomy Recall Test** — Evaluates a model’s ability to generate the correct SOC code or title from memory.
-* **Taxonomy Recognition Test** — Evaluates the model’s ability to select the correct SOC code or title among distractors.
-* **Digit-Level Control** — Allows configurable code granularity (2-, 5-, or 8-digit) to analyze hierarchical taxonomy reasoning.
+* **Taxonomy Recall Test** -- Evaluates a model’s ability to generate the correct SOC code or title from memory.
+* **Taxonomy Recognition Test** -- Evaluates the model’s ability to select the correct SOC code or title among distractors.
+* **Digit-Level Control** -- Allows configurable code granularity (2, 3, 5, 6, or 8 digits) to analyze hierarchical taxonomy reasoning.
 
 
 ## Important Note for Reproducibility
@@ -36,7 +36,40 @@ The framework is implemented through the **`run_knowledge_task.py`** module. It 
 
 ### 1. Run the Recall or Recognition Test
 
+The framework supports two types of tasks:
+
+* Taxonomy Recall -- tests the model's ability to recall the correct concept (e.g., SOC title given a code, or vice versa).
+* Taxonomy Recognition -- tests the model's ability to select or identify the correct answer from a given list of options.
+
+**Parameters**
+
+| **Argument**        | **Description**                                                                          |
+| ------------------- | ---------------------------------------------------------------------------------------- |
+| `task`            | Task type to run. Either `taxonomy_recall` or `taxonomy_recognition`.                      |
+| `taxonomy_file`   | Path to the O*NET-SOC 2019 taxonomy file.                                                  |
+| `prompt_file`     | Path to the text file containing the prompt template.                                      |
+| `system_prompt`   | Optional system prompt to set model behavior or expertise context.                         |
+| `query_col`       | Name of the column in the taxonomy file to use as the query field (e.g., `code`).          |
+| `answer_col`      | Name of the column in the taxonomy file to use as the answer field (e.g., `title`).        |
+| `num_digits_answer` | Number of SOC code digits to use for evaluation. Supports 2, 3, 5, 6, or 8 digits.       |
+| `output_csv`      | CSV file to save structured responses.                                                     |
+| `raw_output_json` | Raw model outputs in JSON format.                                                          |
+| `log_file`        | Logging file for experiment tracking.                                                      |
+| `vertex_project`  | GCP Project ID for Vertex AI MAAS endpoints (optional, read from SA if not set).           |
+| `vertex_location` | GCP Region for Vertex AI MAAS endpoints.                                                   |
+| `model`           | LLM to query (e.g., `gpt-4o-mini`, `gemini-2.5-flash`, `meta/llama-3.1-8b-instruct-maas`). |
+| `temperature`     | Generation temperature (default = 0.0).                                                    |
+| `partial_answer`  | If specified, provides partial answers as hints during recall tests.                       |
+| `batch_size`      | Number of input instances processed per batch.                                             |
+| `start_index `    | Start index in the taxonomy file for processing.                                           |
+| `append `         | If set, appends new results to existing output files.                                      |
+| `verbose `        | Enables detailed logging to the console.                                                   |
+| `debug `          | Run in debug mode to display the constructed prompt without making API calls.              |
+
+
 **Example Command:**
+
+**Code-to-Title Recall Test:**
 
 ```bash
 python run_knowledge_task.py \
@@ -48,30 +81,63 @@ python run_knowledge_task.py \
     --log_file ../logs/run.log \
     --output_csv ../results/results.csv \
     --raw_output_json ../results/api_responses/responses.json \
-    --query_field code \
-    --answer_field title \
+    --query_col code \
+    --answer_col title \
     --temperature 0.0 \
     --verbose
 ```
 
-**Parameters**
+**Title-to-Code Recall Test (2-Digit Level):**
 
-| **Argument**        | **Description**                                                                            |
-| ------------------- | ------------------------------------------------------------------------------------------ |
-| `task`            | Either `taxonomy_recall` or `taxonomy_recognition`.                                        |
-| `taxonomy_file`   | Path to the O*NET-SOC 2019 taxonomy file.                                |
-| `prompt_file`     | Prompt template file used to instruct the model for recall or recognition.                 |
-| `query_field`     | Field in the taxonomy file used as input (e.g., `code`).                                   |
-| `answer_field`    | Field expected in the response (e.g., `title`).                                            |
-| `output_csv`      | CSV file to save structured responses.                                                     |
-| `raw_output_json` | Raw model outputs in JSON format.                                                          |
-| `log_file`        | Logging file for experiment tracking.                                                      |
-| `model`           | LLM to query (e.g., `gpt-4o-mini`, `gemini-2.5-flash`, `meta/llama-3.1-8b-instruct-maas`). |
-| `temperature`     | Generation temperature (default = 0.0).                                                    |
+```bash
+python run_knowledge_task.py \
+    --task taxonomy_recall \
+    --model gpt-3.5-turbo \
+    --batch_size 1 \
+    --taxonomy_file ../data/onet-soc_2019.csv \
+    --prompt_file ../data/onet_soc_recall_prompt.txt \
+    --log_file ../logs/run.log \
+    --output_csv ../results/results.csv \
+    --raw_output_json ../results/api_responses/responses.json \
+    --query_col title \
+    --answer_col code \
+    --num_digits_answer 2 \
+    --temperature 0.0 \
+    --verbose
+```
+
+**Code-to-Title Recognition Test:**
+
+```bash
+python run_knowledge_task.py \
+    --task taxonomy_recognition \
+    --model gpt-3.5-turbo \
+    --batch_size 1 \
+    --taxonomy_file ../data/onet-soc_2019.csv \
+    --prompt_file ../data/onet_soc_recognition_prompt.txt \
+    --log_file ../logs/run.log \
+    --output_csv ../results/results.csv \
+    --raw_output_json ../results/api_responses/responses.json \
+    --query_col code \
+    --answer_col title \
+    --temperature 0.0 \
+    --verbose
+```
+
 
 ### 2. Evaluate Model Outputs
 
 After running the recall or recognition test, you can compute accuracy and F1 scores using `compute_scores.py`.
+
+**Parameters**
+
+| **Argument**         | **Description**                                                                               |
+| -------------------- | --------------------------------------------------------------------------------------------- |
+| `input_csv`        | Path to the CSV file containing model predictions and ground truth.                           |
+| `answer_col`       | Column name in the CSV containing the model’s predicted answers (default: `answer`).          |
+| `ground_truth_col` | Column name in the CSV containing the ground truth labels (default: `ground_truth`).          |
+| `num_code_digits`  | Number of SOC code digits to use for evaluation. Supports 2, 3, 5, 6, or 8 digits. |
+| `output_csv`       | Path to save the per-label F1 score table as CSV (optional).                                  |
 
 **Example Command:**
 
@@ -84,19 +150,15 @@ python compute_scores.py \
     --output_csv ../results/evaluation_f1.csv
 ```
 
-**Parameters**
-
-| **Argument**         | **Description**                                                                               |
-| -------------------- | --------------------------------------------------------------------------------------------- |
-| `input_csv`        | Path to the CSV file containing model predictions and ground truth.                           |
-| `answer_col`       | Column name in the CSV containing the model’s predicted answers (default: `answer`).          |
-| `ground_truth_col` | Column name in the CSV containing the ground truth labels (default: `ground_truth`).          |
-| `num_code_digits`  | Number of SOC code digits to use for evaluation. Supports 2, 3, 5, 6, or 8 digits. |
-| `output_csv`       | Path to save the per-label F1 score table as CSV (optional).                                  |
-
 ## Supported LLM APIs
 
-The repository currently supports three major LLM API families: OpenAI, Google Gemini, Vertex AI's open model MAAS (Model as a Service) endpoints.
+The repository currently supports three major LLM API families:
+
+* OpenAI API -- e.g., `gpt-4o`, `gpt-4o-mini`, `gpt-3.5-turbo`
+* Google Gemini API --  e.g., `gemini-2.5-pro`, `gemini-2.5-flash`
+* Open-weight models via Vertex AI's Model-as-a-Service (MAAS) -- e.g., `meta/llama-3.1-8b-instruct-maas`
+
+Each model is specified using its official model identifier or model endpoint in API documentation.
 
 
 ## Files Description
@@ -135,7 +197,7 @@ protobuf==5.28.3
 
 ## Citation
 
-If you use this repository in your work, please cite:
+If you use this repository in your academic work, please cite:
 
 ```bibtex
 @article{achananuparp2025multi,

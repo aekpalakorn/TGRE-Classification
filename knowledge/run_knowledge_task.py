@@ -277,8 +277,8 @@ def extract_response_text(resp: dict) -> str:
 # Utility
 # -------------------------------
 
-def truncate_soc_code(val, answer_field, num_digits_answer):
-    if answer_field == "code":
+def truncate_soc_code(val, answer_col, num_digits_answer):
+    if answer_col == "code":
         if num_digits_answer >= 8:
             return val
         elif num_digits_answer == 2:
@@ -301,37 +301,37 @@ def batch_iterator(data: pd.DataFrame, batch_size: int):
 # Prompt Builders
 # -------------------------------
 
-def build_taxonomy_recall_prompt(row, prompt_template, query_field, answer_field, num_digits_answer, partial_answer, taxonomy_df):
-    query_val = str(row[query_field]).strip()
-    answer_val = str(row[answer_field]).strip() if answer_field in row else ""
+def build_taxonomy_recall_prompt(row, prompt_template, query_col, answer_col, num_digits_answer, partial_answer, taxonomy_df):
+    query_val = str(row[query_col]).strip()
+    answer_val = str(row[answer_col]).strip() if answer_col in row else ""
 
     # --------------------------
     # Example row (random, different from instance)
     # --------------------------
     if taxonomy_df is not None:
         example_row = taxonomy_df[taxonomy_df.index != row.name].sample(n=1, random_state=row.name).iloc[0]
-        ex_query_val = str(example_row[query_field]).strip()
-        ex_answer_val = str(example_row[answer_field]).strip()
+        ex_query_val = str(example_row[query_col]).strip()
+        ex_answer_val = str(example_row[answer_col]).strip()
     else:
         ex_query_val = query_val
         ex_answer_val = answer_val
 
-    truncated_answer = truncate_soc_code(answer_val, answer_field, num_digits_answer)
-    truncated_ex_answer = truncate_soc_code(ex_answer_val, answer_field, num_digits_answer)
+    truncated_answer = truncate_soc_code(answer_val, answer_col, num_digits_answer)
+    truncated_ex_answer = truncate_soc_code(ex_answer_val, answer_col, num_digits_answer)
 
     # --------------------------
     # Replace placeholders
     # --------------------------
     prompt = prompt_template
     # Example placeholders
-    prompt = re.sub(r"\$\{example_query_field\}", query_field, prompt)
-    prompt = re.sub(r"\$\{example_answer_field\}", f"{num_digits_answer}-digit {answer_field}" if answer_field=="code" else answer_field, prompt)
+    prompt = re.sub(r"\$\{example_query_field\}", query_col, prompt)
+    prompt = re.sub(r"\$\{example_answer_field\}", f"{num_digits_answer}-digit {answer_col}" if answer_col=="code" else answer_col, prompt)
     prompt = re.sub(r"\$\{example_query\}", ex_query_val, prompt)
     prompt = re.sub(r"\$\{example_answer\}", truncated_ex_answer, prompt)
 
     # Real instance placeholders
-    prompt = re.sub(r"\$\{query_field\}", query_field, prompt)
-    prompt = re.sub(r"\$\{answer_field\}", f"{num_digits_answer}-digit {answer_field}" if answer_field=="code" else answer_field, prompt)
+    prompt = re.sub(r"\$\{query_field\}", query_col, prompt)
+    prompt = re.sub(r"\$\{answer_field\}", f"{num_digits_answer}-digit {answer_col}" if answer_col=="code" else answer_col, prompt)
     prompt = re.sub(r"\$\{query\}", query_val, prompt)
     prompt = re.sub(r"\$\{answer\}", truncated_answer, prompt)
 
@@ -343,24 +343,24 @@ def build_taxonomy_recall_prompt(row, prompt_template, query_field, answer_field
     return prompt
 
 
-def build_taxonomy_recognition_prompt(row, prompt_template, query_field, answer_field, num_digits_answer, taxonomy_df, num_hard=2, num_easy=2):
-    query_val = str(row[query_field]).strip()
-    correct_answer = str(row[answer_field]).strip()
-    truncated_correct = truncate_soc_code(correct_answer, answer_field, num_digits_answer)
+def build_taxonomy_recognition_prompt(row, prompt_template, query_col, answer_col, num_digits_answer, taxonomy_df, num_hard=2, num_easy=2):
+    query_val = str(row[query_col]).strip()
+    correct_answer = str(row[answer_col]).strip()
+    truncated_correct = truncate_soc_code(correct_answer, answer_col, num_digits_answer)
 
     # Helper to sample unique distractors given a DataFrame of candidates
     def sample_unique_truncated(candidates_df, exclude_truncated_set, n, rng=None):
         """
-        candidates_df: dataframe with answer_field column (full values)
+        candidates_df: dataframe with answer_col column (full values)
         exclude_truncated_set: set of truncated strings to avoid
         returns: list of unique truncated distractor strings (len <= n)
         """
         if rng is None:
             rng = {}
         # compute truncated candidates and remove excludes
-        cand_full = candidates_df[answer_field].astype(str).tolist()
+        cand_full = candidates_df[answer_col].astype(str).tolist()
         # compute truncated and preserve order
-        truncated_list = [truncate_soc_code(x, answer_field, num_digits_answer) for x in cand_full]
+        truncated_list = [truncate_soc_code(x, answer_col, num_digits_answer) for x in cand_full]
         unique_truncated = []
         seen = set()
         # shuffle indices for randomness (but keep deterministic if DataFrame.sample used upstream)
@@ -385,19 +385,19 @@ def build_taxonomy_recognition_prompt(row, prompt_template, query_field, answer_
     options_truncated = [truncated_correct]
     exclude_set = {truncated_correct}
 
-    if answer_field == "code":
+    if answer_col == "code":
         # use first 2 chars of the full code as the 'major' grouping (existing logic)
         major_prefix = correct_answer[:2]
-        same_major = taxonomy_df[taxonomy_df[query_field].astype(str).str.startswith(major_prefix)]
-        diff_major = taxonomy_df[~taxonomy_df[query_field].astype(str).str.startswith(major_prefix)]
+        same_major = taxonomy_df[taxonomy_df[query_col].astype(str).str.startswith(major_prefix)]
+        diff_major = taxonomy_df[~taxonomy_df[query_col].astype(str).str.startswith(major_prefix)]
     else:
-        # for title->code mapping, same_major based on answer_field prefixes (as before)
+        # for title->code mapping, same_major based on answer_col prefixes (as before)
         major_prefix = correct_answer[:2]
-        same_major = taxonomy_df[taxonomy_df[answer_field].astype(str).str.startswith(major_prefix)]
-        diff_major = taxonomy_df[~taxonomy_df[answer_field].astype(str).str.startswith(major_prefix)]
+        same_major = taxonomy_df[taxonomy_df[answer_col].astype(str).str.startswith(major_prefix)]
+        diff_major = taxonomy_df[~taxonomy_df[answer_col].astype(str).str.startswith(major_prefix)]
 
     # sample hard options from same_major (avoid the exact full correct answer)
-    same_major = same_major[same_major[answer_field].astype(str) != correct_answer]
+    same_major = same_major[same_major[answer_col].astype(str) != correct_answer]
     hard_trunc = sample_unique_truncated(same_major, exclude_set, num_hard)
     exclude_set.update(hard_trunc)
 
@@ -408,7 +408,7 @@ def build_taxonomy_recognition_prompt(row, prompt_template, query_field, answer_
     # If we didn't get enough unique distractors, expand search to entire taxonomy
     needed = (num_hard + num_easy) - (len(hard_trunc) + len(easy_trunc))
     if needed > 0:
-        extra_candidates = taxonomy_df[taxonomy_df[answer_field].astype(str) != correct_answer]
+        extra_candidates = taxonomy_df[taxonomy_df[answer_col].astype(str) != correct_answer]
         extra_trunc = sample_unique_truncated(extra_candidates, exclude_set, needed)
         # distribute extras to hard/easy buckets until counts met (simple fill)
         remaining = extra_trunc
@@ -429,21 +429,21 @@ def build_taxonomy_recognition_prompt(row, prompt_template, query_field, answer_
     # --------------------------
     # pick a different example row (deterministic per row)
     example_row = taxonomy_df[taxonomy_df.index != row.name].sample(n=1, random_state=row.name).iloc[0]
-    ex_query_val = str(example_row[query_field]).strip()
-    ex_correct_answer = str(example_row[answer_field]).strip()
-    ex_truncated_correct = truncate_soc_code(ex_correct_answer, answer_field, num_digits_answer)
+    ex_query_val = str(example_row[query_col]).strip()
+    ex_correct_answer = str(example_row[answer_col]).strip()
+    ex_truncated_correct = truncate_soc_code(ex_correct_answer, answer_col, num_digits_answer)
 
     # Build example distractors similarly, but use a fixed small random_state for internal sampling
-    if answer_field == "code":
+    if answer_col == "code":
         ex_major_prefix = ex_correct_answer[:2]
-        ex_same_major = taxonomy_df[taxonomy_df[query_field].astype(str).str.startswith(ex_major_prefix)]
-        ex_diff_major = taxonomy_df[~taxonomy_df[query_field].astype(str).str.startswith(ex_major_prefix)]
+        ex_same_major = taxonomy_df[taxonomy_df[query_col].astype(str).str.startswith(ex_major_prefix)]
+        ex_diff_major = taxonomy_df[~taxonomy_df[query_col].astype(str).str.startswith(ex_major_prefix)]
     else:
         ex_major_prefix = ex_correct_answer[:2]
-        ex_same_major = taxonomy_df[taxonomy_df[answer_field].astype(str).str.startswith(ex_major_prefix)]
-        ex_diff_major = taxonomy_df[~taxonomy_df[answer_field].astype(str).str.startswith(ex_major_prefix)]
+        ex_same_major = taxonomy_df[taxonomy_df[answer_col].astype(str).str.startswith(ex_major_prefix)]
+        ex_diff_major = taxonomy_df[~taxonomy_df[answer_col].astype(str).str.startswith(ex_major_prefix)]
 
-    ex_same_major = ex_same_major[ex_same_major[answer_field].astype(str) != ex_correct_answer]
+    ex_same_major = ex_same_major[ex_same_major[answer_col].astype(str) != ex_correct_answer]
     ex_hard_trunc = sample_unique_truncated(ex_same_major, {ex_truncated_correct}, num_hard)
     ex_exclude_set = {ex_truncated_correct} | set(ex_hard_trunc)
     ex_easy_trunc = sample_unique_truncated(ex_diff_major, ex_exclude_set, num_easy)
@@ -451,7 +451,7 @@ def build_taxonomy_recognition_prompt(row, prompt_template, query_field, answer_
     # fill extras if needed
     ex_needed = (num_hard + num_easy) - (len(ex_hard_trunc) + len(ex_easy_trunc))
     if ex_needed > 0:
-        ex_extra_candidates = taxonomy_df[taxonomy_df[answer_field].astype(str) != ex_correct_answer]
+        ex_extra_candidates = taxonomy_df[taxonomy_df[answer_col].astype(str) != ex_correct_answer]
         ex_extra_trunc = sample_unique_truncated(ex_extra_candidates, ex_exclude_set, ex_needed)
         remaining = ex_extra_trunc
         while len(ex_hard_trunc) < num_hard and remaining:
@@ -469,10 +469,10 @@ def build_taxonomy_recognition_prompt(row, prompt_template, query_field, answer_
     # --------------------------
     prompt = prompt_template
     # example placeholders
-    prompt = re.sub(r"\$\{example_query_field\}", query_field, prompt)
+    prompt = re.sub(r"\$\{example_query_field\}", query_col, prompt)
     prompt = re.sub(
         r"\$\{example_answer_field\}",
-        f"{num_digits_answer}-digit {answer_field}" if answer_field == "code" else answer_field,
+        f"{num_digits_answer}-digit {answer_col}" if answer_col == "code" else answer_col,
         prompt,
     )
     prompt = re.sub(r"\$\{example_query\}", ex_query_val, prompt)
@@ -480,10 +480,10 @@ def build_taxonomy_recognition_prompt(row, prompt_template, query_field, answer_
     prompt = re.sub(r"\$\{ex_options\}", ex_options_str, prompt)
 
     # real instance placeholders
-    prompt = re.sub(r"\$\{query_field\}", query_field, prompt)
+    prompt = re.sub(r"\$\{query_field\}", query_col, prompt)
     prompt = re.sub(
         r"\$\{answer_field\}",
-        f"{num_digits_answer}-digit {answer_field}" if answer_field == "code" else answer_field,
+        f"{num_digits_answer}-digit {answer_col}" if answer_col == "code" else answer_col,
         prompt,
     )
     prompt = re.sub(r"\$\{query\}", query_val, prompt)
@@ -518,7 +518,7 @@ def run_taxonomy_recall(args, taxonomy_df, prompt_template):
 
         for idx, (_, row) in enumerate(batch_df.iterrows(), start=batch_num*args.batch_size - args.batch_size + 1):
             prompt = build_taxonomy_recall_prompt(
-                row, prompt_template, args.query_field, args.answer_field,
+                row, prompt_template, args.query_col, args.answer_col,
                 args.num_digits_answer, args.partial_answer, taxonomy_df
             )
             try:
@@ -532,21 +532,21 @@ def run_taxonomy_recall(args, taxonomy_df, prompt_template):
                 )
                 response_text = extract_response_text(response_raw)
                 response_answer = extract_answer_tag(response_text)
-                batch_raw.append({"query": row[args.query_field], "response": response_raw})
+                batch_raw.append({"query": row[args.query_col], "response": response_raw})
                 batch_results.append({
-                    "query": row[args.query_field], 
-                    "ground_truth": row[args.answer_field], 
+                    "query": row[args.query_col], 
+                    "ground_truth": row[args.answer_col], 
                     "response": response_text, 
                     "answer": response_answer})
-                logging.info(f"[Row {idx}] SUCCESS: {row[args.query_field]} -> {response_answer}")
+                logging.info(f"[Row {idx}] SUCCESS: {row[args.query_col]} -> {response_answer}")
             except Exception as e:
                 batch_results.append({
-                    "query": row[args.query_field], 
-                    "ground_truth": row[args.answer_field], 
+                    "query": row[args.query_col], 
+                    "ground_truth": row[args.answer_col], 
                     "response": response_text, 
                     "answer":"None",
                     "error":str(e)})
-                batch_raw.append({"query": row[args.query_field], "response": response_raw,"error":str(e)})
+                batch_raw.append({"query": row[args.query_col], "response": response_raw,"error":str(e)})
                 logging.error(f"[Row {idx}] FAILED: {e}")
 
         # Append batch to CSV
@@ -584,7 +584,7 @@ def run_taxonomy_recognition(args, taxonomy_df, prompt_template):
 
         for idx, (_, row) in enumerate(batch_df.iterrows(), start=batch_num*args.batch_size - args.batch_size + 1):
             prompt, options = build_taxonomy_recognition_prompt(
-                row, prompt_template, args.query_field, args.answer_field, args.num_digits_answer,
+                row, prompt_template, args.query_col, args.answer_col, args.num_digits_answer,
                 taxonomy_df, num_hard, num_easy
             )
             try:
@@ -598,25 +598,25 @@ def run_taxonomy_recognition(args, taxonomy_df, prompt_template):
                 )
                 response_text = extract_response_text(response_raw)
                 response_answer = extract_answer_tag(response_text)
-                batch_raw.append({"query": row[args.query_field], "response": response_raw})
+                batch_raw.append({"query": row[args.query_col], "response": response_raw})
                 batch_results.append({
-                    "query": row[args.query_field],
+                    "query": row[args.query_col],
                     "options": options,
-                    "ground_truth": row[args.answer_field],
+                    "ground_truth": row[args.answer_col],
                     "response": response_text,
                     "answer": response_answer
                 })
-                logging.info(f"[Row {idx}] SUCCESS: {row[args.query_field]} -> {response_answer}")
+                logging.info(f"[Row {idx}] SUCCESS: {row[args.query_col]} -> {response_answer}")
             except Exception as e:
                 batch_results.append({
-                    "query": row[args.query_field],
+                    "query": row[args.query_col],
                     "options": options,
-                    "ground_truth": row[args.answer_field],
+                    "ground_truth": row[args.answer_col],
                     "response": response_text,
                     "answer": "None",
                     "error": str(e)
                 })
-                batch_raw.append({"query": row[args.query_field], "response":response_raw,"error": str(e)})
+                batch_raw.append({"query": row[args.query_col], "response":response_raw,"error": str(e)})
                 logging.error(f"[Row {idx}] FAILED: {e}")
 
         # Append batch to CSV
@@ -635,14 +635,14 @@ def run_taxonomy_recognition(args, taxonomy_df, prompt_template):
 
 def debug_taxonomy_recall(args, taxonomy_df, prompt_template):
     row = taxonomy_df.iloc[args.start_index]
-    prompt = build_taxonomy_recall_prompt(row, prompt_template, args.query_field, args.answer_field, args.num_digits_answer, args.partial_answer, taxonomy_df)
+    prompt = build_taxonomy_recall_prompt(row, prompt_template, args.query_col, args.answer_col, args.num_digits_answer, args.partial_answer, taxonomy_df)
     logging.info("\n================ DEBUG PROMPT (Recall Task) ================\n")
     logging.info(prompt)
     logging.info("\n============================================================\n")
 
 def debug_taxonomy_recognition(args, taxonomy_df, prompt_template):
     row = taxonomy_df.iloc[args.start_index]
-    prompt,_ = build_taxonomy_recognition_prompt(row, prompt_template, args.query_field, args.answer_field, args.num_digits_answer, taxonomy_df)
+    prompt,_ = build_taxonomy_recognition_prompt(row, prompt_template, args.query_col, args.answer_col, args.num_digits_answer, taxonomy_df)
     logging.info("\n================ DEBUG PROMPT (Recognition Task) ================\n")
     logging.info(prompt)
     logging.info("\n============================================================\n")
@@ -653,28 +653,28 @@ def debug_taxonomy_recognition(args, taxonomy_df, prompt_template):
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Probe LLM taxonomy knowledge.")
-    parser.add_argument("--task", choices=["taxonomy_recall","taxonomy_recognition"], required=True)    
+    parser.add_argument("--task", choices=["taxonomy_recall","taxonomy_recognition"], required=True, help="Task type to run. Either taxonomy_recall or taxonomy_recognition.")    
     parser.add_argument("--vertex_project", type=str, default=os.environ.get("GCP_PROJECT_ID"),
                     help="GCP Project ID for Vertex AI MAAS endpoints (optional, read from SA if not set)")
     parser.add_argument("--vertex_location", type=str, default=os.environ.get("GCP_REGION", "us-central1"),
                     help="GCP Region for Vertex AI MAAS endpoints")    
-    parser.add_argument("--model", required=True)
-    parser.add_argument("--taxonomy_file", required=True)
-    parser.add_argument("--system_prompt", default="You are an expert O*NET-SOC 2019 coder.",)
-    parser.add_argument("--prompt_file", required=True)
-    parser.add_argument("--log_file", required=True)
-    parser.add_argument("--output_csv", required=True)
-    parser.add_argument("--raw_output_json", required=True)
-    parser.add_argument("--query_field", required=True)
-    parser.add_argument("--answer_field", required=True)
-    parser.add_argument("--num_digits_answer", type=int, default=8)
-    parser.add_argument("--batch_size", type=int, default=5)
-    parser.add_argument("--temperature", type=float, default=0.0)
-    parser.add_argument("--verbose", action="store_true")
-    parser.add_argument("--append", action="store_true")
-    parser.add_argument("--start_index", type=int, default=0)
-    parser.add_argument("--partial_answer", action="store_true")
-    parser.add_argument("--debug", action="store_true")
+    parser.add_argument("--model", required=True, help="Official model name to query.")
+    parser.add_argument("--taxonomy_file", required=True, help="Path to the taxonomy file (CSV) containing SOC titles and codes.")
+    parser.add_argument("--system_prompt", default="You are an expert O*NET-SOC 2019 coder.", help="Optional system prompt to set model behavior or expertise context.")
+    parser.add_argument("--prompt_file", required=True, help="Path to the text file containing the prompt template.")
+    parser.add_argument("--log_file", required=True, help="Path to the log file for saving runtime information and error messages.")
+    parser.add_argument("--output_csv", required=True, help="Path to the output CSV file containing structured results.")
+    parser.add_argument("--raw_output_json", required=True, help="Path to the JSON file where raw model responses will be stored (newline-delimited).")
+    parser.add_argument("--query_col", required=True, help="Name of the column in the taxonomy file to use as the query field.")
+    parser.add_argument("--answer_col", required=True, help="Name of the column in the taxonomy file to use as the answer field.")
+    parser.add_argument("--num_digits_answer", type=int, default=8, help="Number of digits of the SOC code used for the test.")
+    parser.add_argument("--batch_size", type=int, default=5, help="Number of taxonomy instances to process per batch")
+    parser.add_argument("--temperature", type=float, default=0.0, help="Sampling temperature for model generation")
+    parser.add_argument("--verbose", action="store_true", help="Enable detailed console logging.")
+    parser.add_argument("--append", action="store_true", help="Append new results to existing CSV and JSON output files instead of overwriting them.")
+    parser.add_argument("--start_index", type=int, default=0, help="Start index in the taxonomy file for processing.")
+    parser.add_argument("--partial_answer", action="store_true", help="If set, includes a partial hint of the correct answer (e.g., first few digits or characters) in the prompt.")
+    parser.add_argument("--debug", action="store_true", help="Run in debug mode: only display the constructed prompt for inspection without making API calls.")
 
     return parser.parse_args()
 
