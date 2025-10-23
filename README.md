@@ -1,4 +1,4 @@
-# Occupational Knowledge Assessment using Large Language Models
+# Assessing Large Language Models' Knowledge of Occupational Taxonomy
 
 ## Overview
 
