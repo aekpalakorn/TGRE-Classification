@@ -2,24 +2,24 @@
 
 ## Overview
 
-This repository contains the source code and resources for the **taxonomy knowledge assessment framework** described in the paper:
+This repository contains the source code and resources for the taxonomy knowledge assessment framework described in the paper:
 
 **"A Multi-Stage Framework with Taxonomy-Guided Reasoning for Occupation Classification Using Large Language Models."**
 
-This code base enables reproduction of the *Occupational Knowledge Assessment* experiments in the TGRE-LLM framework. It evaluates LLM’s internalized understanding of the **O*NET-SOC 2019 occupational taxonomy** through recall and recognition tasks.
+This code base enables reproduction of the Occupational Knowledge Assessment experiments in the TGRE-LLM framework. It evaluates LLM’s internalized understanding of the O*NET-SOC 2019 occupational taxonomy through recall and recognition tasks.
 
 The repository focuses on the following core capabilities:
 
-* **Taxonomy Recall Test** -- Evaluates a model’s ability to generate the correct SOC code or title from memory.
-* **Taxonomy Recognition Test** -- Evaluates the model’s ability to select the correct SOC code or title among distractors.
-* **Digit-Level Control** -- Allows configurable code granularity (2, 3, 5, 6, or 8 digits) to analyze hierarchical taxonomy reasoning.
+* Taxonomy Recall Test: Evaluates a model’s ability to generate the correct SOC code or title from memory.
+* Taxonomy Recognition Test: Evaluates the model’s ability to select the correct SOC code or title among distractors.
+* Digit-Level Control: Allows configurable code granularity (2, 3, 5, 6, or 8 digits) to analyze hierarchical taxonomy reasoning.
 
 
 ## Important Note for Reproducibility
 
 * This codebase reproduces the original experiment scripts as closely as possible.
 * File paths used in example commands are placeholders. Replace them with your own local paths as needed.
-* Model outputs and evaluation results may vary slightly depending on API version, model updates, or temperature settings.
+* Model outputs and evaluation results may vary slightly depending on API versions, model updates, or temperature settings.
 
 
 ## Repository Structure
@@ -27,12 +27,12 @@ The repository focuses on the following core capabilities:
 | **Directory** | **Content**            | **Description**                                                                                                            |
 | ------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `/knowledge/` | Python modules (`.py`) | Contains runnable scripts for taxonomic knowledge assessment and evaluation.                      |
-| `/data/`      | `.csv` / `.txt` files  | Includes taxonomy reference files (O*NET-SOC 2019), prompt templates, and example input data for recall/recognition tests. |
+| `/data/`      | `.csv` / `.txt` files  | Includes taxonomy files (O*NET-SOC 2019) and prompt templates for recall and recognition tests. |
 
 
 ## Taxonomy Knowledge Assessment Framework
 
-The framework is implemented through the **`run_knowledge_task.py`** module. It uses `query_model()` for constructing standardized prompts and `call_api()` for transport across OpenAI GPT, Gemini, and Vertex AI Llama endpoints.
+The framework is implemented through the `run_knowledge_task.py` module. It uses `query_model()` for constructing standardized prompts and `call_api()` for transport across OpenAI GPT, Gemini, and Vertex AI Llama endpoints.
 
 ### 1. Run the Recall or Recognition Test
 
@@ -52,13 +52,13 @@ The framework supports two types of tasks:
 | `query_col`       | Name of the column in the taxonomy file to use as the query field (e.g., `code`).          |
 | `answer_col`      | Name of the column in the taxonomy file to use as the answer field (e.g., `title`).        |
 | `num_digits_answer` | Number of SOC code digits to use for evaluation. Supports 2, 3, 5, 6, or 8 digits.       |
-| `output_csv`      | CSV file to save structured responses.                                                     |
-| `raw_output_json` | Raw model outputs in JSON format.                                                          |
-| `log_file`        | Logging file for experiment tracking.                                                      |
+| `output_csv`      | Path to the output CSV file containing structured results.                                 |
+| `raw_output_json` | Path to the JSON file where raw model responses will be stored (newline-delimited).        |
+| `log_file`        | Path to the log file for saving runtime information and error messages.                    |
 | `vertex_project`  | GCP Project ID for Vertex AI MAAS endpoints (optional, read from SA if not set).           |
 | `vertex_location` | GCP Region for Vertex AI MAAS endpoints.                                                   |
-| `model`           | LLM to query (e.g., `gpt-4o-mini`, `gemini-2.5-flash`, `meta/llama-3.1-8b-instruct-maas`). |
-| `temperature`     | Generation temperature (default = 0.0).                                                    |
+| `model`           | Official model name to query. (e.g., `gpt-4o-mini`, `gemini-2.5-flash`, `meta/llama-3.1-8b-instruct-maas`). |
+| `temperature`     | Sampling temperature for model generation (default = 0.0).                                 |
 | `partial_answer`  | If specified, provides partial answers as hints during recall tests.                       |
 | `batch_size`      | Number of input instances processed per batch.                                             |
 | `start_index `    | Start index in the taxonomy file for processing.                                           |
@@ -159,6 +159,11 @@ The repository currently supports three major LLM API families:
 * Open-weight models via Vertex AI's Model-as-a-Service (MAAS) -- e.g., `meta/llama-3.1-8b-instruct-maas`
 
 Each model is specified using its official model identifier or model endpoint in API documentation.
+
+To add support for other LLMs, modify the following functions in `run_knowledge_task.py`:
+
+* `query_model()` -- constructs the message or payload format expected by the API.
+* `call_api()` -- sends the request and standardizes the response format (i.e., ensures it returns a dictionary containing `"choices"` and `"usage"` fields).
 
 
 ## Files Description

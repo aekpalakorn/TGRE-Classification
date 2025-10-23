@@ -655,9 +655,9 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Probe LLM taxonomy knowledge.")
     parser.add_argument("--task", choices=["taxonomy_recall","taxonomy_recognition"], required=True, help="Task type to run. Either taxonomy_recall or taxonomy_recognition.")    
     parser.add_argument("--vertex_project", type=str, default=os.environ.get("GCP_PROJECT_ID"),
-                    help="GCP Project ID for Vertex AI MAAS endpoints (optional, read from SA if not set)")
+                    help="GCP Project ID for Vertex AI MAAS endpoints (optional, read from SA if not set).")
     parser.add_argument("--vertex_location", type=str, default=os.environ.get("GCP_REGION", "us-central1"),
-                    help="GCP Region for Vertex AI MAAS endpoints")    
+                    help="GCP Region for Vertex AI MAAS endpoints.")    
     parser.add_argument("--model", required=True, help="Official model name to query.")
     parser.add_argument("--taxonomy_file", required=True, help="Path to the taxonomy file (CSV) containing SOC titles and codes.")
     parser.add_argument("--system_prompt", default="You are an expert O*NET-SOC 2019 coder.", help="Optional system prompt to set model behavior or expertise context.")
@@ -668,8 +668,8 @@ def parse_args():
     parser.add_argument("--query_col", required=True, help="Name of the column in the taxonomy file to use as the query field.")
     parser.add_argument("--answer_col", required=True, help="Name of the column in the taxonomy file to use as the answer field.")
     parser.add_argument("--num_digits_answer", type=int, default=8, help="Number of digits of the SOC code used for the test.")
-    parser.add_argument("--batch_size", type=int, default=5, help="Number of taxonomy instances to process per batch")
-    parser.add_argument("--temperature", type=float, default=0.0, help="Sampling temperature for model generation")
+    parser.add_argument("--batch_size", type=int, default=5, help="Number of taxonomy instances to process per batch.")
+    parser.add_argument("--temperature", type=float, default=0.0, help="Sampling temperature for model generation.")
     parser.add_argument("--verbose", action="store_true", help="Enable detailed console logging.")
     parser.add_argument("--append", action="store_true", help="Append new results to existing CSV and JSON output files instead of overwriting them.")
     parser.add_argument("--start_index", type=int, default=0, help="Start index in the taxonomy file for processing.")
