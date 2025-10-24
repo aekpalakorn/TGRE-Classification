@@ -27,7 +27,8 @@ The repository focuses on the following core capabilities:
 | **Directory** | **Content**            | **Description**                                                                                                            |
 | ------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `/knowledge/` | Python modules (`.py`) | Contains runnable scripts for taxonomic knowledge assessment and evaluation.                      |
-| `/data/`      | `.csv` / `.txt` files  | Includes taxonomy files (O*NET-SOC 2019) and prompt templates for recall and recognition tests. |
+| `/data/`      | `.csv`  files  | Includes taxonomy files (O*NET-SOC 2019) and prompt templates for recall and recognition tests. |
+| `/prompts/`      | `.txt`  files  | Contains prompt templates for recall and recognition tests, and occupation and classification tasks. |
 
 
 ## Taxonomy Knowledge Assessment Framework
@@ -77,7 +78,7 @@ python run_knowledge_task.py \
     --model gpt-3.5-turbo \
     --batch_size 1 \
     --taxonomy_file ../data/onet-soc_2019.csv \
-    --prompt_file ../data/onet_soc_recall_prompt.txt \
+    --prompt_file ../prompts/onet_soc_recall_prompt.txt \
     --log_file ../logs/run.log \
     --output_csv ../results/results.csv \
     --raw_output_json ../results/api_responses/responses.json \
@@ -95,7 +96,7 @@ python run_knowledge_task.py \
     --model gpt-3.5-turbo \
     --batch_size 1 \
     --taxonomy_file ../data/onet-soc_2019.csv \
-    --prompt_file ../data/onet_soc_recall_prompt.txt \
+    --prompt_file ../prompts/onet_soc_recall_prompt.txt \
     --log_file ../logs/run.log \
     --output_csv ../results/results.csv \
     --raw_output_json ../results/api_responses/responses.json \
@@ -114,7 +115,7 @@ python run_knowledge_task.py \
     --model gpt-3.5-turbo \
     --batch_size 1 \
     --taxonomy_file ../data/onet-soc_2019.csv \
-    --prompt_file ../data/onet_soc_recognition_prompt.txt \
+    --prompt_file ../prompts/onet_soc_recognition_prompt.txt \
     --log_file ../logs/run.log \
     --output_csv ../results/results.csv \
     --raw_output_json ../results/api_responses/responses.json \
