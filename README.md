@@ -27,8 +27,8 @@ The repository focuses on the following core capabilities:
 | **Directory** | **Content**            | **Description**                                                                                                            |
 | ------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | `/knowledge/` | Python modules (`.py`) | Contains runnable scripts for taxonomic knowledge assessment and evaluation.                      |
-| `/data/`      | `.csv`  files  | Includes taxonomy files (O*NET-SOC 2019) and prompt templates for recall and recognition tests. |
-| `/prompts/`      | `.txt`  files  | Contains prompt templates for recall and recognition tests, and occupation and classification tasks. |
+| `/data/`      | `.csv`  files  | Includes taxonomy files (O*NET-SOC 2019) |
+| `/prompts/`      | `.txt`  files  | Contains prompt templates for taxonomic knowledge tests and occupation & skill classification tasks. |
 
 
 ## Taxonomy Knowledge Assessment Framework
