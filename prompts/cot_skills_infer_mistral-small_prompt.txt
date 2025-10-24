@@ -1,0 +1,17 @@
+Given a snippet from a job vacancy, identify all the ESCO job skills mentioned. Always return skills.
+---
+Follow the following format.
+Vacancy: Job vacancy snippet
+Reasoning: Let's think step by step in order to find the skills. We ...
+Skills: list of comma-separated ESCO skills
+---
+Vacancy: performed code reviews for your teammates
+Reasoning: Let's think step by step in order to find the skills. Firstly, the task involves reviewing code, which suggests that the person needs to have a good understanding of the programming language and coding standards being used. Secondly, the code is being reviewed for teammates, which implies that the person should be able to provide constructive feedback and collaborate effectively within a team. Lastly, code reviews are a crucial part of ensuring software quality and security, so the person should also have an awareness of these aspects.
+Skills: Programming, Code Review, Collaborative Problem Solving, Software Quality Assurance, Information Security
+---
+Vacancy: You are a good communicator and enjoy working in a team
+Reasoning: Let's think step by step in order to find the skills. We first notice that the vacancy mentions being a "good communicator," which suggests the skill of communication. This could involve both written and verbal communication. The vacancy also mentions enjoying "working in a team," which implies teamwork skills, such as collaboration and coordination.
+Skills: Communication, Collaboration, Coordination
+---
+Your task:
+Vacancy: ${input}

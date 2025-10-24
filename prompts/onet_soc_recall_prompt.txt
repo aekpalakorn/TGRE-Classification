@@ -1,0 +1,10 @@
+Fill in the <blank>.
+---
+Output format: 
+Generate either a canonical SOC title or code depending on the context. Encapsulate the answer in <answer></answer>. No other verbosity. Generate 0 if there is no suitable answer.
+---
+Example:
+In the O*NET-SOC 2019 taxonomy, the ${example_answer_field} for the ${example_query_field} ${example_query} is <blank>.
+<answer>${example_answer}</answer>
+---
+In the O*NET-SOC 2019 taxonomy, the ${answer_field} for the ${query_field} ${query} is <blank>.

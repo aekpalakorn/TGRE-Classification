@@ -1,0 +1,148 @@
+Given a snippet from a job vacancy and a list of ESCO skills and knowledge as options, first generate a rationale then select verbatim up to 10 options most applicable to skills and knowledge explicitly mentioned in the snippet. No other verbosity.
+---
+Follow this out format.
+Reasoning: The job vacancy snippet explicitly mentions...These phrases give us clues in determining the most relevant options by aligning them with the specific requirements in the snippet...
+Therefore, we select the following 10 most applicable options: A ranked list of ESCO skills and knowledge, one skill per line separated by new line.
+1. Skill A
+2. Skill B 
+...
+---
+Example #1:
+Vacancy: You'll be required to apply your depth of knowledge and expertise to all aspects of the software development lifecycle as well as partner continuously with your many stakeholders on a daily basis to stay focused on common goals.
+Options:
+- Agile development
+- DevOps
+- Iterative development
+- Prototyping development
+- Rapid application development
+- Spiral development
+- Waterfall development
+- align efforts towards business development
+- collaborate on international energy projects
+- collaborate with coaching team
+- collaborate with designers
+- content development processes
+- cooperate to resolve information issues
+- cooperate with colleagues
+- cooperate with education professionals
+- create a work atmosphere of continuous improvement
+- create social alliances
+- develop production line
+- develop therapeutic relationships
+- engage with stakeholders
+- ensure cross-department cooperation
+- ensure cross-department cooperation
+- establish collaborative relations
+- focus on service
+- identify customer objectives
+- identify with the company's goals
+- incremental development
+- levels of software testing
+- liaise with cultural partners
+- liaise with engineers
+- maintain relationship with customers
+- maintain relationship with suppliers
+- manage personal progression
+- manage relationships with stakeholders
+- motivate employees
+- negotiate with stakeholders
+- negotiate with stakeholders
+- procurement lifecycle
+- product life-cycle
+- project commissioning
+- promote the principles of democracy and rule of law
+- research your target community
+- social alliances
+- solution deployment
+- strive for company growth
+- systems development life-cycle
+- talent management strategies
+- teamwork principles
+Reasoning: The job vacancy snippet explicitly mentions "software development lifecycle," "partner continuously with your many stakeholders," and "stay focused on common goals." These phrases give us clues in determining the most relevant options by aligning them with the specific requirements in the snippet.
+- The term "software development lifecycle" in the snippet directly corresponds to "systems development life-cycle," making it the most relevant option.
+- The term "partner continuously with your many stakeholders" directly points to managing relationships with stakeholders.
+- The term "stay focused on common goals" suggests the importance of aligning individual efforts with the company’s objectives, highlighting the need for employees to identify with and strive towards these goals.
+Therefore, we select the following 10 most applicable options:
+1. systems development life-cycle
+2. manage relationships with stakeholders
+3. identify with the company's goals
+4. engage with stakeholders
+5. negotiate with stakeholders
+6. maintain relationship with customers
+7. Waterfall development
+8. Iterative development
+9. Agile development
+10. Rapid application development
+---
+Example #2:
+Vacancy: You are proficient in Python and English
+Options:
+- APL
+- Ancient Greek
+- Arabic
+- C++
+- COBOL
+- English
+- Erlang
+- French
+- German
+- Greek
+- Groovy
+- ICT system programming
+- Japanese
+- Java (computer programming)
+- Latin
+- MATLAB
+- ML (computer programming)
+- Objective-C
+- Pascal (computer programming)
+- Python (computer programming)
+- Ruby (computer programming)
+- Russian
+- Scala
+- TypeScript
+- Yiddish
+- academic English
+- aviation English
+- comprehend the material to be translated
+- computer programming
+- computer science
+- computer technology
+- develop digital educational materials
+- e-learning
+- interpret languages in conferences
+- keywords in digital content
+- manage business knowledge
+- manage localisation
+- query languages
+- teach ESOL language class
+- teach ESOL literacy class
+- teach languages
+- teach linguistics
+- technical terminology
+- technology education
+- translate foreign language
+- translate spoken language
+- understand spoken English
+- understand written English
+- use localisation tools
+- write English
+Reasoning: The job vacancy snippet explicitly mentions "Python" and "English." These phrases give us clues in determining the most relevant options by aligning them with the specific requirements in the snippet.
+- The term "Python" directly corresponds to "Python (computer programming)," making it the most relevant option.
+- The term "English" directly corresponds to "English," and it can also be relevant to "academic English," "understand spoken English," "understand written English," and "write English," depending on the context in which English proficiency is required.
+Therefore, we select the following 10 most applicable options:
+1. Python (computer programming)
+2. English
+3. understand written English
+4. understand spoken English
+5. write English
+6. academic English
+7. ICT system programming
+8. computer programming
+9. technical terminology
+10. technology education
+---
+Your task:
+Vacancy: ${input}
+Options:
+${options}
