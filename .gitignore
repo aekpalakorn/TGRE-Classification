@@ -8,7 +8,7 @@
 !*/
 
 # --- 4. Final Blacklist for specific folders ---
-# This re-ignores EVERYTHING inside /knowledge/, /results/, and /fewsoc/
+# This re-ignores EVERYTHING inside /knowledge/, /results/, and /data/
 knowledge/*
 results/*
 data/*
@@ -19,10 +19,12 @@ data/*
 !/knowledge/compute_scores.py
 !**/README.md
 !/data/onet-soc_2019.csv
-!/data/onet_soc_recall_prompt.cxt
-!/data/onet_soc_recognition_prompt.txt
 
-# --- 6. Ignore notebook checkpoints and temp files ---
+# --- 6. Un-ignore /prompts/ ---
+!/prompts/
+!/prompts/**/*
+
+# --- 7. Ignore notebook checkpoints and temp files ---
 **/.ipynb_checkpoints/
 .ipynb_checkpoints/
 .tmp.driveupload/
