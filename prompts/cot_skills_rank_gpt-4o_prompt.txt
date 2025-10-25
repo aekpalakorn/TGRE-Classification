@@ -1,8 +1,13 @@
-Given a snippet from a job vacancy, generate a chain-of-thought rationale and select verbatim up to 10 most applicable ESCO skills from the options that are directly expressed in the snippet. Always start the output with "Reasoning: Let's think step by step...".
+Given a snippet from a job vacancy, first generate a chain-of-thought rationale then select verbatim up to 10 most applicable ESCO skills from the options that are directly expressed in the snippet. No other verbosity.
 ---
-Follow the output format.
-Reasoning: Let's think step by step in order to identify the most applicable skills from the snippet. We ...
-Skills: Ranked list of ESCO skills separated by semicolon
+Follow this output format.
+<reasoning>Start the rationale with "Let's think step by step in order to identify the most applicable skills from the snippet. We..."</reasoning>
+<prediction>
+A ranked list of ESCO skills, one skill per line separated by new line.
+1. Skill A
+2. Skill B
+...
+</prediction>
 ---
 Example #1:
 Vacancy: performed code reviews for your teammates
@@ -57,8 +62,17 @@ Options:
 - write inspection reports
 - facilitate teamwork between students
 - shape organisational teams based on competencies
-Reasoning: Let's think step by step in order to identify the skills that are directly expressed in the job vacancy snippet. The vacancy mentions performed code reviews for your teammates, which implies certain skills that are necessary to fulfill this task. We need to look for skills that involve working with others, specifically in a team setting, and skills related to the technical aspect of performing code reviews.
-Skills: conduct ICT code review; work in teams; cooperate with colleagues; communication; report to the team leader; contribute to the programmer's reflection process; collaborate in company's daily operations; establish collaborative relations; shape organisational teams based on competencies; teamwork principles
+<reasoning>Let's think step by step in order to identify the skills that are directly expressed in the job vacancy snippet. The vacancy mentions performed code reviews for your teammates, which implies certain skills that are necessary to fulfill this task. We need to look for skills that involve working with others, specifically in a team setting, and skills related to the technical aspect of performing code reviews.</reasoning>
+<prediction>
+1. conduct ICT code review; work in teams
+2. cooperate with colleagues
+3. communication; report to the team leader
+4. contribute to the programmer's reflection process
+5. collaborate in company's daily operations
+6. establish collaborative relations
+7. shape organisational teams based on competencies
+8. teamwork principles
+</prediction>
 ---
 Example #2:
 Vacancy: You are a good communicator and enjoy working in a team
@@ -113,8 +127,18 @@ Options:
 - develop inclusive communication material
 - psychology
 - build team spirit
-Reasoning: Let's think step by step in order to identify the most applicable skills from the snippet. We need to identify the skills that are directly expressed or implied in the vacancy snippet provided. The snippet states, You are a good communicator and enjoy working in a team. From this, we can infer that the job requires skills related to communication and teamwork. We will look for options that are most relevant to these two areas.
-Skills: communication; team building; use communication techniques; teamwork principles; work in teams; encourage teambuilding; build team spirit; lead a team; manage a team; coordinate communication within a team
+<reasoning>Let's think step by step in order to identify the most applicable skills from the snippet. We need to identify the skills that are directly expressed or implied in the vacancy snippet provided. The snippet states, You are a good communicator and enjoy working in a team. From this, we can infer that the job requires skills related to communication and teamwork. We will look for options that are most relevant to these two areas.</reasoning>
+<prediction>
+1. communication
+2. team building
+3. use communication techniques
+4. teamwork principles
+5. work in teams
+6. encourage teambuilding
+7. build team spirit; lead a team
+8. manage a team
+9. coordinate communication within a team
+</prediction>
 ---
 Your task:
 Vacancy: ${input}

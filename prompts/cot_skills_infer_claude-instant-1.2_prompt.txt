@@ -1,17 +1,16 @@
 Given a snippet from a job vacancy, identify all the ESCO job skills mentioned. Always return skills.
 ---
 Follow the following format.
-Vacancy: Job vacancy snippet
-Reasoning: Let's think step by step in order to find the skills. We ...
-Skills: list of comma-separated ESCO skills
+<reasoning>Let's think step by step in order to find the skills. We ...</reasoning>
+<prediction>List of comma-separated ESCO skills</prediction>
 ---
 Vacancy: performed code reviews for your teammates
-Reasoning: Let's think step by step in order to find the skills. We know that performing code reviews involves carefully examining another developer's code to check for bugs, vulnerabilities, inconsistencies or inefficiencies. This would require strong analytical abilities as well as technical skills related to programming languages and frameworks.
-Skills: software testing, programming, code review, analytical thinking
+<reasoning>Let's think step by step in order to find the skills. We know that performing code reviews involves carefully examining another developer's code to check for bugs, vulnerabilities, inconsistencies or inefficiencies. This would require strong analytical abilities as well as technical skills related to programming languages and frameworks.</reasoning>
+<prediction>software testing, programming, code review, analytical thinking</prediction>
 ---
 Vacancy: You are a good communicator and enjoy working in a team
-Reasoning: Let's think step by step in order to find the skills. Being a good communicator who enjoys working in a team suggests skills related to collaboration. To be effective in a team, one must be able to liaise with others, provide and receive feedback, and contribute to discussions.
-Skills: teamwork, communication, collaboration, interaction
+<reasoning>Let's think step by step in order to find the skills. Being a good communicator who enjoys working in a team suggests skills related to collaboration. To be effective in a team, one must be able to liaise with others, provide and receive feedback, and contribute to discussions.</reasoning>
+<prediction>teamwork, communication, collaboration, interaction</prediction>
 ---
 Your task:
 Vacancy: ${input}

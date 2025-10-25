@@ -1,8 +1,13 @@
 Given a snippet from a job vacancy, first generate a chain-of-thought rationale then select verbatim up to 10 most applicable ESCO skills from the options that are directly expressed in the snippet. No other verbosity.
 ---
 Follow this output format.
-Reasoning: Start the rationale with "Let's think step by step in order to identify the most applicable skills from the snippet. We..."
-Skills: Ranked list of ESCO skills separated by semicolon
+<reasoning>Start the rationale with "Let's think step by step in order to identify the most applicable skills from the snippet. We..."</reasoning>
+<prediction>
+A ranked list of ESCO skills, one skill per line separated by new line.
+1. Skill A
+2. Skill B
+...
+</prediction>
 ---
 Example #1:
 Vacancy: performed code reviews for your teammates
@@ -57,8 +62,15 @@ Options:
 - write inspection reports
 - facilitate teamwork between students
 - shape organisational teams based on competencies
-Reasoning: Let's think step by step in order to identify the most applicable skills from the snippet. We are looking for skills that are related to teamwork, collaboration, and code review, which are explicitly mentioned in the snippet. We will focus on skills that are directly expressed in the snippet, excluding skills that are indirectly related or not mentioned at all.
-Skills: conduct ICT code review; teamwork principles; communication; facilitate teamwork between students; coordinate communication within a team; evaluate performance of organisational collaborators
+<reasoning>Let's think step by step in order to identify the most applicable skills from the snippet. We are looking for skills that are related to teamwork, collaboration, and code review, which are explicitly mentioned in the snippet. We will focus on skills that are directly expressed in the snippet, excluding skills that are indirectly related or not mentioned at all.</reasoning>
+<prediction>
+1. conduct ICT code review
+2. teamwork principles
+3. communication
+4. facilitate teamwork between students
+5. coordinate communication within a team
+6. evaluate performance of organisational collaborators
+</prediction>
 ---
 Example #2:
 Vacancy: You are a good communicator and enjoy working in a team
@@ -113,8 +125,19 @@ Options:
 - develop inclusive communication material
 - psychology
 - build team spirit
-Reasoning: Let's think step by step in order to identify the most applicable skills from the snippet. We can start by breaking down the requirement of being a "good communicator" into specific skills, such as effective communication, communication techniques, and communication principles. Additionally, the phrase "enjoy working in a team" suggests that teamwork and collaboration are important aspects of the job. By combining these two requirements, we can identify skills that relate to both communication and teamwork.
-Skills: communication; teamwork principles; work in teams; use communication techniques; promote communication between parties; coordinate communication within a team; build team spirit; cooperate with colleagues; lead a team; manage a team
+<reasoning>Let's think step by step in order to identify the most applicable skills from the snippet. We can start by breaking down the requirement of being a "good communicator" into specific skills, such as effective communication, communication techniques, and communication principles. Additionally, the phrase "enjoy working in a team" suggests that teamwork and collaboration are important aspects of the job. By combining these two requirements, we can identify skills that relate to both communication and teamwork.</reasoning>
+<prediction>
+1. communication
+2. teamwork principles
+3. work in teams
+4. use communication techniques
+5. promote communication between parties
+6. coordinate communication within a team
+7. build team spirit
+8. cooperate with colleagues
+9. lead a team
+10. manage a team
+</prediction>
 ---
 Your task:
 Vacancy: ${input}

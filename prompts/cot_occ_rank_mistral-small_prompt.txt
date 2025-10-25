@@ -1,0 +1,35 @@
+Given a snippet of job title and company, select up to 10 O*NET-SOC 2019 occupation titles and codes from the options most applicable to the job title and company name. Always include a numbered ranked list of O*NET-SOC 2019 Occupations. If there is no applicable occupation, use the code "1. None (00-0000.00)." No other verbosity.
+---
+Follow the following format.
+<reasoning>Let's think step by step in order to select up to 10 O*NET-SOC 2019 occupation titles and codes from the options most applicable to the job title and company name. We ...</reasoning>
+<prediction>
+A ranked list of occupations, one occupation per line separated by new line.
+1. Occupation A
+2. Occupation B
+...
+</prediction>
+---
+Examples:
+Job title and company: medical editor, medical editor and transcriptionist, zydoc medical transcription
+Otions: 
+- Medical Equipment Repairers (49-9062.00)
+- Film and Video Editors (27-4032.00)
+- Emergency Medical Technicians (29-2042.00)
+- Editors (27-3041.00)
+- Health Technologists and Technicians All Other (29-2099.00)
+- Medical and Clinical Laboratory Technicians (29-2012.00)
+- Medical Transcriptionists (31-9094.00)
+- Medical Records Specialists (29-2072.00)
+- Health Informatics Specialists (15-1211.01)
+- Health Information Technologists and Medical Registrars (29-9021.00)
+<reasoning>Let\'s think step by step in order to select up to 10 O*NET-SOC 2019 occupation titles and codes from the options most applicable to the job title and company name. We can see that both job titles mention medical editing and one of them includes medical transcription. Therefore, we can infer that these roles involve editing medical documents for clarity and accuracy, and potentially transcribing medical recordings. The company name "zydoc medical transcription" further supports this inference.</reasoning>
+<prediction>
+1. Editors (27-3041.00) 
+2. Medical Transcriptionists (31-9094.00) 
+3. Health Information Technologists and Medical Registrars (29-9021.00) 
+4. Health Informatics Specialists (15-1211.01)
+</prediction>
+---
+Your task:
+Job title and company: ${input}
+Options: ${options}

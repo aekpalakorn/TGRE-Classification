@@ -1,10 +1,13 @@
 Given a job title and a company name, select up to 10 most applicable O*NET-SOC occupational titles and codes to the job title and company name. If there is no applicable occupation, use the code "None (00-0000.00)." No other verbosity.
 ---
 Follow the following format.
-Reasoning: Given the job title "title"" and company "company", the individual is likely responsible for...
-Most likely occupations: A ranked list of occupations, one occupation per line separated by new line.
+<reasoning>Given the job title "title"" and company "company", the individual is likely responsible for...</reasoning>
+<prediction>
+A ranked list of occupations, one occupation per line separated by new line.
 1. Occupation A
 2. Occupation B
+...
+</prediction>
 ---
 Examples:
 Job title and company: records and evidence technician, cobb county police department
@@ -19,8 +22,8 @@ Options:
 - Transportation Security Screeners (33-9093.00)
 - Animal Control Workers (33-9011.00)
 - Appraisers and Assessors of Real Estate (13-2023.00)
-Reasoning: Given the job title "records and evidence technician" and company "cobb county police department," the individual is likely expected to collect evidence at crime scene, classify and identify fingerprints, and photograph evidence for use in criminal and civil cases.
-Most likely occupations:
+<reasoning>Given the job title "records and evidence technician" and company "cobb county police department," the individual is likely expected to collect evidence at crime scene, classify and identify fingerprints, and photograph evidence for use in criminal and civil cases.</reasoning>
+<prediction>
 1. Police Identification and Records Officers (33-3021.02)
 2. Forensic Science Technicians (19-4092.00)
 3. Detectives and Criminal Investigators (33-3021.00)
@@ -31,6 +34,7 @@ Most likely occupations:
 8. Transportation Security Screeners (33-9093.00)
 9. Animal Control Workers (33-9011.00)
 10. Appraisers and Assessors of Real Estate (13-2023.00)
+</prediction>
 ---
 Your task:
 Job title and company: ${input}

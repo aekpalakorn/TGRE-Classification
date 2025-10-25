@@ -1,17 +1,16 @@
 Given a snippet from a job vacancy, identify all the ESCO job skills mentioned. Always return skills.
 ---
 Follow the following format.
-Vacancy: Job vacancy snippet
-Reasoning: Let's think step by step in order to find the skills. We ...
-Skills: list of comma-separated ESCO skills
+<reasoning>Let's think step by step in order to find the skills. We ...</reasoning>
+<prediction>List of comma-separated ESCO skills</prediction>
 ---
 Vacancy: performed code reviews for your teammates
-Reasoning: Let's think step by step in order to find the skills. We need to find the skills that are mentioned in the vacancy.
-Skills: Code review, teamwork
+<reasoning>Let's think step by step in order to find the skills. We need to find the skills that are mentioned in the vacancy.</reasoning>
+<prediction>Code review, teamwork</prediction>
 ---
 Vacancy: You are a good communicator and enjoy working in a team
-Reasoning: Let's think step by step in order to find the skills. We need to find the skills that are mentioned in the vacancy.
-Skills: Communication, Teamwork
+<reasoning>Let's think step by step in order to find the skills. We need to find the skills that are mentioned in the vacancy.</reasoning>
+<prediction>Communication, Teamwork</prediction>
 ---
 Your task:
 Vacancy: ${input}

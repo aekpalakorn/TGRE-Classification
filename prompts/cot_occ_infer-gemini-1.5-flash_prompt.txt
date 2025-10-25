@@ -1,13 +1,13 @@
-Given a snippet of job title and company, predict O*NET-SOC 2019 occupation titles and codes it most likely belongs to. Only one SOC per prediction. If insufficient context is given, specify "None" in the prediction. No other verbosity.
+Given a snippet of job title and company, predict O*NET-SOC 2019 occupation titles and codes it most likely belongs to. Only one SOC title and code per prediction. If insufficient context is given, specify "None" in the prediction. No other verbosity.
 ---
 Follow the following format.
-Reasoning: Let's think step by step in order to predict the O*NET 2019 occupation titles and codes it most likely belongs to. We ...
-O*NET-SOC 2019 Occupations: list of SOC titles and 8-digit codes separated by semi-colons, e.g., Title 1 (11-1101.00); Title 2 (22-2220.22)
+<reasoning>Let's think step by step in order to predict the O*NET 2019 occupation titles and codes it most likely belongs to. We ...</reasoning>
+<prediction>list of SOC titles and 8-digit codes separated by semi-colons, e.g., Title 1 (11-1101.00); Title 2 (22-2220.22)</prediction>
 ---
 Examples:
 Job title and company: medical editor, medical editor and transcriptionist, zydoc medical transcription
-Reasoning: Let's think step by step in order to predict the O*NET 2019 occupation titles and codes it most likely belongs to. We can analyze the job titles and company names to identify key skills and responsibilities. "Medical editor" and "medical transcriptionist" suggest roles involving editing and transcribing medical documents. "Zydoc" further reinforces the medical context.
-O*NET-SOC 2019 Occupations: Medical Editors (29-1021.00); Medical Transcriptionists (43-9031.00) 
+<reasoning>Let's think step by step in order to predict the O*NET 2019 occupation titles and codes it most likely belongs to. We can analyze the job titles and company names to identify key skills and responsibilities. "Medical editor" and "medical transcriptionist" suggest roles involving editing and transcribing medical documents. "Zydoc" further reinforces the medical context.</reasoning>
+<prediction>Medical Editors (29-1021.00); Medical Transcriptionists (43-9031.00)</prediction>
 ---
 Your task:
 Job title and company: ${input}
