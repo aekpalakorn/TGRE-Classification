@@ -1,10 +1,10 @@
-Given a snippet from a job vacancy, generate rationale in order to identify all ESCO skills explicitly mentioned. In the rationale, encapsulate ESCO concept and description in a square bracket.
+Given a snippet from a job vacancy, generate rationale in order to identify all ESCO skills explicitly mentioned.
 ---
 Follow the following format.
 <reasoning>The job vacancy snippet explicitly mentions...Therefore, we can infer the following ESCO skills and knowledge...</reasoning>
 <prediction>
-- Skill mention 1 likely refers to...<label>ESCO concept</label> <description>description</description>
-- Skill mention 2 likely refers to...<label>ESCO concept</label> <description>description</description>
+<skill>Skill mention 1 likely refers to...<label>ESCO skill 1</label>: <description>description 1</description></skill>
+<skill>Skill mention 2 likely refers to...<label>ESCO skill 2</label>: <description>description 2</description></skill>
 ...
 </prediction>
 ---
@@ -12,17 +12,17 @@ Example #1:
 Vacancy: You'll be required to apply your depth of knowledge and expertise to all aspects of the software development lifecycle as well as partner continuously with your many stakeholders on a daily basis to stay focused on common goals.
 <reasoning>The job vacancy snippet explicitly mentions "software development lifecycle," "partner continuously with your many stakeholders," and "stay focused on common goals." Therefore, we can infer the following ESCO skills and knowledge:</reasoning>
 <prediction>
-- "Software development lifecycle" likely refers to the ESCO knowledge concept <label>systems development life-cycle</label> <description>The sequence of steps, such as planning, creating, testing and deploying and the models for the development and life-cycle management of a system.</description>
-- "Partner continuously with your many stakeholders" likely refers to the ESCO skill/competence concept <label>manage relationships with stakeholders</label> <description>Create and maintain solid internal and external relations with stakeholders at operational level based on mutual trust and credibility in order to achieve organisational goals. Ensure organisational strategies incorporate strong stakeholder management and identify and prioritise strategic stakeholder relationships.</description>
-- "Stay focused on common goals" likely refers to the ESCO skill/competence concept <label>identify with the company's goals</label> <description>Act for the benefit of the company and for the achievement of its targets.<description>
+<skill>"Software development lifecycle" likely refers to the ESCO knowledge concept <label>systems development life-cycle</label>: <description>The sequence of steps, such as planning, creating, testing and deploying and the models for the development and life-cycle management of a system.</description></skill>
+<skill>"Partner continuously with your many stakeholders" likely refers to the ESCO skill/competence concept <label>manage relationships with stakeholders</label>: <description>Create and maintain solid internal and external relations with stakeholders at operational level based on mutual trust and credibility in order to achieve organisational goals. Ensure organisational strategies incorporate strong stakeholder management and identify and prioritise strategic stakeholder</skill> relationships.</description></skill>
+<skill>"Stay focused on common goals" likely refers to the ESCO skill/competence concept <label>identify with the company's goals</label>: <description>Act for the benefit of the company and for the achievement of its targets.<description></skill>
 </prediction>
 ---
 Example #2:
 Vacancy: You are proficient in Python and English
 <reasoning>The job vacancy snippet explicitly mentions "Python" and "English." Therefore, we can infer the following ESCO skills and knowledge:</reasoning>
 <prediction>
-- "Python" likely refers to the ESCO knowledge concept <label>Python (computer programming)</label> <description>The techniques and principles of software development, such as analysis, algorithms, coding, testing and compiling of programming paradigms in Python.</description>
-- "English" likely refers to the ESCO knowledge concept <label>English</label> <description>The English language.</description>
+<skill>"Python" likely refers to the ESCO knowledge concept <label>Python (computer programming)</label>: <description>The techniques and principles of software development, such as analysis, algorithms, coding, testing and compiling of programming paradigms in Python.</description></skill>
+<skill>"English" likely refers to the ESCO knowledge concept <label>English</label>: <description>The English language.</description></skill>
 </prediction>
 ---
 Your task:
