@@ -2,15 +2,26 @@ Given a snippet from a job vacancy, identify all the ESCO job skills mentioned. 
 ---
 Follow the following format.
 <reasoning>Let's think step by step in order to find the skills. We ...</reasoning>
-<prediction>List of comma-separated ESCO skills</prediction>
+<prediction>
+List of ESCO skills, one line per skill:
+- <label>Skill A</label>
+- <label>Skill B</label>
+...
+</prediction>
 ---
 Vacancy: performed code reviews for your teammates
 <reasoning>Let's think step by step in order to find the skills. We need to find the skills that are mentioned in the vacancy.</reasoning>
-<prediction>Code review, teamwork</prediction>
+<prediction>
+- <label>Code review</label>
+- <label>teamwork</label>
+</prediction>
 ---
 Vacancy: You are a good communicator and enjoy working in a team
 <reasoning>Let's think step by step in order to find the skills. We need to find the skills that are mentioned in the vacancy.</reasoning>
-<prediction>Communication, Teamwork</prediction>
+<prediction>
+- <label>Communication</label>
+- <label>Teamwork</label>
+</prediction>
 ---
 Your task:
 Vacancy: ${input}

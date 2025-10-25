@@ -2,15 +2,30 @@ Given a snippet from a job vacancy, identify all the ESCO job skills mentioned. 
 ---
 Follow the following format.
 <reasoning>Let's think step by step in order to find the skills. We ...</reasoning>
-<prediction>List of comma-separated ESCO skills</prediction>
+<prediction>
+List of ESCO skills, one line per skill:
+- <label>Skill A</label>
+- <label>Skill B</label>
+...
+</prediction>
 ---
 Vacancy: performed code reviews for your teammates
 <reasoning>Let's think step by step in order to find the skills. Firstly, the task involves reviewing code, which suggests that the person needs to have a good understanding of the programming language and coding standards being used. Secondly, the code is being reviewed for teammates, which implies that the person should be able to provide constructive feedback and collaborate effectively within a team. Lastly, code reviews are a crucial part of ensuring software quality and security, so the person should also have an awareness of these aspects.</reasoning>
-<prediction>Programming, Code Review, Collaborative Problem Solving, Software Quality Assurance, Information Security</prediction>
+<prediction>
+- <label>Programming</label>
+- <label>Code Review</label>
+- <label>Collaborative Problem Solving</label>
+- <label>Software Quality Assurance</label>
+- <label>Information Security</label>
+</prediction>
 ---
 Vacancy: You are a good communicator and enjoy working in a team
 <reasoning>Let's think step by step in order to find the skills. We first notice that the vacancy mentions being a "good communicator," which suggests the skill of communication. This could involve both written and verbal communication. The vacancy also mentions enjoying "working in a team," which implies teamwork skills, such as collaboration and coordination.</reasoning>
-<prediction>Communication, Collaboration, Coordination</prediction>
+<prediction>
+- <label>Communication</label>
+- <label>Collaboration</label>
+- <label>Coordination</label>
+</prediction>
 ---
 Your task:
 Vacancy: ${input}

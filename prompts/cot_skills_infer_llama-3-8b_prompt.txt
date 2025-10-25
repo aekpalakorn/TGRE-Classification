@@ -2,15 +2,32 @@ Given a snippet from a job vacancy, identify all the ESCO job skills mentioned. 
 ---
 Follow the following format.
 <reasoning>Let's think step by step in order to find the skills. We ...</reasoning>
-<prediction>List of comma-separated ESCO skills</prediction>
+<prediction>
+List of ESCO skills, one line per skill:
+- <label>Skill A</label>
+- <label>Skill B</label>
+...
+</prediction>
 ---
 Vacancy: performed code reviews for your teammates
 <reasoning>Let's think step by step in order to find the skills. We are looking at a job vacancy that involves performing code reviews for teammates, which implies that the candidate needs to have skills related to software development, collaboration, and communication.</reasoning>
-<prediction>coding skills, code review, collaboration, teamwork, communication</prediction>
+<prediction>
+- <label>coding skills</label>
+- <label>code review</label>
+- <label>collaboration</label>
+- <label>teamwork</label>
+- <label>communication</label>
+</prediction>
 ---
 Vacancy: You are a good communicator and enjoy working in a team
 <reasoning>Let's think step by step in order to find the skills. We start by analyzing the vacancy description, which mentions that the candidate is a "good communicator". This suggests that the person should have strong verbal and written communication skills, being able to effectively convey ideas and information to others. Additionally, the description mentions that the candidate "enjoys working in a team", which implies that the person should have strong interpersonal skills, being able to collaborate and work effectively with others. Furthermore, the fact that the candidate is described as a "good communicator" and "enjoys working in a team" suggests that the person should also have strong organizational and time management skills, being able to prioritize tasks and manage multiple responsibilities.</reasoning>
-<prediction>Communication, Teamwork, Interpersonal skills, Organizational skills, Time management</prediction>
+<prediction>
+- <label>Communication</label>
+- <label>Teamwork</label>
+- <label>Interpersonal skills</label>
+- <label>Organizational skills</label>
+- <label>Time management</label>
+</prediction>
 ---
 Your task:
 Vacancy: ${input}

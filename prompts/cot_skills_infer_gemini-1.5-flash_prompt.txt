@@ -2,15 +2,28 @@ Given a snippet from a job vacancy, identify all the ESCO job skills mentioned. 
 ---
 Follow the following format.
 <reasoning>Let's think step by step in order to find the skills. We ...</reasoning>
-<prediction>List of comma-separated ESCO skills</prediction>
+<prediction>
+List of ESCO skills, one line per skill:
+- <label>Skill A</label>
+- <label>Skill B</label>
+...
+</prediction>
 ---
 Vacancy: performed code reviews for your teammates
 <reasoning>Let's think step by step in order to find the skills. We are looking for skills related to reviewing code written by others. This suggests skills related to software development and quality assurance.</reasoning>
-<prediction>Code review, Software quality assurance, Software development, Software testing</prediction>
+<prediction>
+- <label>Code review</label>
+- <label>Software quality assurance</label>
+- <label>Software development</label>
+- <label>Software testing</label>
+</prediction>
 ---
 Vacancy: You are a good communicator and enjoy working in a team
 <reasoning>Let's think step by step in order to find the skills. We need to identify the skills mentioned in the vacancy. The vacancy mentions "good communicator" which implies strong communication skills. It also mentions "enjoying working in a team" which suggests teamwork skills.</reasoning>
-<prediction>Communication skills, Teamwork skills</prediction>
+<prediction>
+- <label>Communication skills</label>
+- <label>Teamwork skills</label>
+</prediction>
 ---
 Your task:
 Vacancy: ${input}

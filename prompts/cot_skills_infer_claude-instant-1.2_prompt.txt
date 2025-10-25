@@ -2,15 +2,30 @@ Given a snippet from a job vacancy, identify all the ESCO job skills mentioned. 
 ---
 Follow the following format.
 <reasoning>Let's think step by step in order to find the skills. We ...</reasoning>
-<prediction>List of comma-separated ESCO skills</prediction>
+<prediction>
+List of ESCO skills, one line per skill:
+- <label>Skill A</label>
+- <label>Skill B</label>
+...
+</prediction>
 ---
 Vacancy: performed code reviews for your teammates
 <reasoning>Let's think step by step in order to find the skills. We know that performing code reviews involves carefully examining another developer's code to check for bugs, vulnerabilities, inconsistencies or inefficiencies. This would require strong analytical abilities as well as technical skills related to programming languages and frameworks.</reasoning>
-<prediction>software testing, programming, code review, analytical thinking</prediction>
+<prediction>
+- <label>software testing</label>
+- <label>programming</label>
+- <label>code review</label>
+- <label>analytical thinking</label>
+</prediction>
 ---
 Vacancy: You are a good communicator and enjoy working in a team
 <reasoning>Let's think step by step in order to find the skills. Being a good communicator who enjoys working in a team suggests skills related to collaboration. To be effective in a team, one must be able to liaise with others, provide and receive feedback, and contribute to discussions.</reasoning>
-<prediction>teamwork, communication, collaboration, interaction</prediction>
+<prediction>
+- <label>teamwork</label>
+- <label>communication</label>
+- <label>collaboration<label>
+- <label>interaction</label>
+</prediction>
 ---
 Your task:
 Vacancy: ${input}
