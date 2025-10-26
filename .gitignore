@@ -17,7 +17,6 @@ data/*
 # --- 5. Whitelist specific files ---
 !/knowledge/run_knowledge_task.py
 !/knowledge/compute_scores.py
-!/classification/
 !/classification/infer.py
 !/classification/retrieve.py
 !/classification/rerank.py
