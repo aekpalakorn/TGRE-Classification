@@ -8,15 +8,21 @@
 !*/
 
 # --- 4. Final Blacklist for specific folders ---
-# This re-ignores EVERYTHING inside /knowledge/, /results/, and /data/
+# This re-ignores EVERYTHING inside knowledge, classification, results, and data
 knowledge/*
+classification/*
 results/*
 data/*
 
 # --- 5. Whitelist specific files ---
-# These rules must come AFTER the directory blacklists (Step 4) to take effect.
 !/knowledge/run_knowledge_task.py
 !/knowledge/compute_scores.py
+!/classification/infer.py
+!/classification/retrieve.py
+!/classification/rerank.py
+!/classification/llm_api.py
+!/classification/index_taxonomy.py
+
 !**/README.md
 !/data/onet-soc_2019.csv
 
