@@ -574,7 +574,7 @@ def run_taxonomy_recognition(args, taxonomy_df, prompt_template):
         if csv_file.exists(): csv_file.unlink()
         if json_file.exists(): json_file.unlink()
 
-    random.seed(100)
+    random.seed(args.seed)
     num_hard, num_easy = 2, 2
 
     for batch_df, batch_num in batch_iterator(taxonomy_df, args.batch_size):
@@ -670,6 +670,7 @@ def parse_args():
     parser.add_argument("--num_digits_answer", type=int, default=8, help="Number of digits of the SOC code used for the test.")
     parser.add_argument("--batch_size", type=int, default=5, help="Number of taxonomy instances to process per batch.")
     parser.add_argument("--temperature", type=float, default=0.0, help="Sampling temperature for model generation.")
+    parser.add_argument("--seed", type=int, default=100, help="Random seed for shuffling candidate labels")
     parser.add_argument("--verbose", action="store_true", help="Enable detailed console logging.")
     parser.add_argument("--append", action="store_true", help="Append new results to existing CSV and JSON output files instead of overwriting them.")
     parser.add_argument("--start_index", type=int, default=0, help="Start index in the taxonomy file for processing.")
