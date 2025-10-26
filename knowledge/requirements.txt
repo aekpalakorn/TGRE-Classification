@@ -1,0 +1,7 @@
+google-auth==2.35.0
+google-genai==1.41.0
+openai==1.66.3
+pandas==2.3.3
+protobuf==5.28.3
+requests==2.31.0
+tenacity==9.1.2
