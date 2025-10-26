@@ -22,6 +22,12 @@ data/*
 !/classification/rerank.py
 !/classification/llm_api.py
 !/classification/index_taxonomy.py
+!/data/onet-soc-alt-titles_2019.csv
+!/data/skills_en.csv
+!/data/job_titles_test.csv
+!/data/job_titles_validation.csv
+!/data/skills_test.csv
+!/data/skills_validation.csv
 
 !**/README.md
 !/data/onet-soc_2019.csv
