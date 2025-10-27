@@ -24,6 +24,7 @@ data/*
 !/classification/rerank.py
 !/classification/llm_api.py
 !/classification/index_taxonomy.py
+!/classification/generate_tgre.py
 !/classification/compute_scores.py
 !/classification/batch_evaluation.py
 !/data/onet-soc_2019.csv
