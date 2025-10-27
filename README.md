@@ -326,7 +326,75 @@ python rerank.py \
     --verbose
 ```
 
-## 4. Files Description
+## 4. Evaluation
+
+The evaluation script `compute_scores.py` computes instance-level and aggregated performance metrics for both occupation and skill classification tasks. Metrics are computed using precision@1 (for occupation classification) and ranked precision@K (for skill classification) following the definitions in the [paper](https://arxiv.org/abs/2503.12989).
+
+**Example Command**
+
+```bash
+python compute_scores.py \
+    --task occupation \
+    --ground_truth_csv ../results/ground_truth.csv \
+    --input_csv ../results/predictions.csv \
+    --input_col sentence \
+    --prediction_col prediction \
+    --ground_truth_col answer \
+    --output_csv ../results/scores.csv
+```
+
+All result files used in the [paper](https://arxiv.org/abs/2503.12989) can be downloaded from the following [link](https://drive.google.com/file/d/1N-1qy8FAJHUa_-VDwyWcm4HMwnr5Z-hL/view?usp=drive_link).
+
+After downloading, extract the archive under the `results/icwsm26/` directory:
+
+```
+results/
+└── icwsm26/
+    ├── occupation/
+    │   ├── *.csv
+    │   └── ground_truth.csv
+    └── skill/
+        ├── *.csv
+        └── ground_truth.csv
+```
+
+Each subfolder contains:
+
+* Raw model output files (per-method CSVs)
+* Ground-truth tables
+
+
+Use `batch_evaluation.py` to compute evaluation metrics across all methods and models in `/results/icwsm26/`. The script automatically iterates over all relevant CSVs in the specified directory and aggregates their performance.
+
+
+**Example: Occupation Classification Evaluation**
+
+```bash
+python batch_evaluation.py \
+    --task occupation \
+    --base_path ../results/icwsm26 \
+    --ground_truth_csv ../results/icwsm26/occupation/ground_truth.csv \
+    --input_col sentence \
+    --prediction_col prediction \
+    --ground_truth_col answer \
+    --output_csv ../results/icwsm26/occupation_batch_scores.csv
+```
+
+**Example: Skill Classification Evaluation**
+
+```bash
+python batch_evaluation.py \
+    --task skill \
+    --base_path ../results/icwsm26 \
+    --ground_truth_csv ../results/icwsm26/skill/ground_truth.csv \
+    --input_col sentence \
+    --prediction_col prediction \
+    --ground_truth_col label \
+    --output_csv ../results/icwsm26/skill_batch_scores.csv
+```
+
+
+## 5. Files Description
 
 ### Taxonomic Knowledge Assessment Related Files
 
@@ -349,7 +417,7 @@ python rerank.py \
 | `tgre/cot*prompt.txt`             | Various TGRE-based and CoT-based prompt templates for classification tasks.    |
 
 
-### 5. Supported LLM APIs
+### 6. Supported LLM APIs
 
 Three major LLM API families are currently supported:
 
@@ -365,7 +433,7 @@ To add support for other LLMs, modify the following functions in `knowledge/run_
 * `call_api()` -- sends the request and standardizes the response format (i.e., ensures it returns a dictionary containing `"choices"` and `"usage"` fields).
 
 
-## 6. Setup and Installation
+## 7. Setup and Installation
 
 ### Prerequisites
 
@@ -380,7 +448,7 @@ Install requirements.txt in `/knowledge/` and `/classification/`.
 pip install -r requirements.txt
 ```
 
-## 7. Citation
+## 8. Citation
 
 If you use this repository in your academic research, please cite:
 
