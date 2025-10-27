@@ -2,9 +2,9 @@
 
 ## 1. Overview
 
-This repository contains the source code and resources for the taxonomy knowledge assessment framework and occupation/skill classification described in the ICWSM paper:
+This repository contains the source code and resources for the taxonomy knowledge assessment framework and occupation/skill classification described in the ICWSM [paper]((https://arxiv.org/abs/2503.12989)):
 
-**"[A Multi-Stage Framework with Taxonomy-Guided Reasoning for Occupation Classification Using Large Language Models](https://arxiv.org/abs/2503.12989)."**
+**"A Multi-Stage Framework with Taxonomy-Guided Reasoning for Occupation Classification Using Large Language Models."**
 
 The codebase enables two main tasks:
 
@@ -346,7 +346,7 @@ python compute_scores.py \
     --output_csv ../results/scores.csv
 ```
 
-#### Reproducing Experimental Results
+### Reproducing Experimental Results
 
 All result files used in the [paper](https://arxiv.org/abs/2503.12989) can be downloaded from the following [link](https://drive.google.com/file/d/1N-1qy8FAJHUa_-VDwyWcm4HMwnr5Z-hL/view?usp=drive_link).
 
