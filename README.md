@@ -1,4 +1,4 @@
-# Assessing LLM Knowledge & Occupation/Skill Classification
+# LLM Evaluation and Multi-Stage Taxonomy-Guided Reasoning (TGRE) for Occupation/Skill Classification
 
 ## 1. Overview
 
