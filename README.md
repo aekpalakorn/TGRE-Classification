@@ -335,7 +335,7 @@ All TGRE-based prompt templates (e.g., `tgre*prompt.txt`) in this repository alr
 Generates grounded rationales by directly inserting the official SOC occupation descriptions into a rationale template, without invoking an LLM. This corresponds to the verbatim grounding method described in the paper.
 
 ```bash
-python .\generate_trgre.py \
+python .\generate_tgre.py \
     --input_csv ../data/job_titles_validation.csv \
     --input_col sentence \
     --taxonomy_csv ../data/onet-soc_2019.csv \
@@ -348,7 +348,7 @@ python .\generate_trgre.py \
 Alternatively, generates grounded rationales by prompting an LLM to paraphrase and enrich the SOC description, producing more natural and varied text. This method is exploratory and was not investigated in the paper.
 
 ```bash
-python .\generate_trgre.py \
+python .\generate_tgre.py \
     --input_csv ../data/job_titles_validation.csv \
     --input_col sentence \
     --taxonomy_csv ../data/onet-soc_2019.csv \
