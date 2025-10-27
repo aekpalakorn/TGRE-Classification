@@ -328,7 +328,10 @@ python rerank.py \
 
 ## 4. Evaluation
 
+### Computing Performance Scores
+
 The evaluation script `compute_scores.py` computes instance-level and aggregated performance metrics for both occupation and skill classification tasks. Metrics are computed using precision@1 (for occupation classification) and ranked precision@K (for skill classification) following the definitions in the [paper](https://arxiv.org/abs/2503.12989).
+
 
 **Example Command**
 
@@ -342,6 +345,8 @@ python compute_scores.py \
     --ground_truth_col answer \
     --output_csv ../results/scores.csv
 ```
+
+#### Reproducing Experimental Results
 
 All result files used in the [paper](https://arxiv.org/abs/2503.12989) can be downloaded from the following [link](https://drive.google.com/file/d/1N-1qy8FAJHUa_-VDwyWcm4HMwnr5Z-hL/view?usp=drive_link).
 
@@ -358,11 +363,7 @@ results/
         └── ground_truth.csv
 ```
 
-Each subfolder contains:
-
-* Raw model output files (per-method CSVs)
-* Ground-truth tables
-
+Each subfolder contains raw model output files (per-method CSVs) and ground-truth tables.
 
 Use `batch_evaluation.py` to compute evaluation metrics across all methods and models in `/results/icwsm26/`. The script automatically iterates over all relevant CSVs in the specified directory and aggregates their performance.
 
@@ -393,6 +394,9 @@ python batch_evaluation.py \
     --output_csv ../results/icwsm26/skill_batch_scores.csv
 ```
 
+**Reproducibility Note**
+
+The reproduced scores may differ slightly from those reported in the paper (by less than 0.0001-0.001) due to floating-point precision and minor data-cleaning variations. These discrepancies do not affect any relative comparisons or conclusions presented in the paper.
 
 ## 5. Files Description
 
