@@ -1,5 +1,18 @@
 # LLM Evaluation and Multi-Stage Taxonomy-Guided Reasoning (TGRE) for Occupation/Skill Classification
 
+[![Paper](https://img.shields.io/badge/Paper-arXiv%3A2503.12989-b31b1b.svg)](https://arxiv.org/abs/2503.12989)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)]()
+
+
+## TL;DR
+
+* **The LLM Knowledge Gap:** We find that Large Language Models (LLMs) -- especially smaller, cost-efficient ones -- lack sufficient taxonomic knowledge to precisely generate standard occupational or skill codes (e.g., O*NET-SOC, ESCO).
+* **Taxonomy-Guided Reasoning Examples (TGRE):** We embedded structured, high-quality, in-context examples into the prompt to anchor the LLM's reasoning to taxonomic ground truth.
+* **Multi-Stage Framework:** A three-stage pipeline -- Inference, Retrieval, and Reranking -- that integrates TGRE with efficient prompting and retrieval to guide LLMs toward taxonomically valid outputs.
+* **Results:** TGRE achieves up to 0.81 Precision@1 for occupation classification and 0.70 RP@10 for skill classification, outperforming prior prompting frameworks (e.g., LLM4Jobs, IReRa) while reducing inference costs by 72%.
+* **Takeaway**: Our framework provides a simple, training-free, and cost-effective alternative to fine-tuning or using frontier models, making LLM-based occupation and skill classification practical at scale.
+
 ## 1. Overview
 
 This repository contains the source code and resources for the taxonomy knowledge assessment framework and occupation/skill classification described in the ICWSM [paper](https://arxiv.org/abs/2503.12989):
@@ -30,7 +43,7 @@ The codebase enables two main tasks:
 | `/prompts/`               | `.txt`  files          | Contains prompt templates for taxonomy knowledge tests and occupation & skill classification tasks.                                             |
 
 
-## 2. Taxonomy Knowledge Assessment Framework
+## 2. Taxonomy Knowledge Assessment (Recall & Recognition Tasks)
 
 The framework is implemented through the `run_knowledge_task.py` module. It uses `query_model()` for constructing standardized prompts and `call_api()` for transport across OpenAI GPT, Gemini, and Vertex AI Llama endpoints.
 
@@ -134,7 +147,7 @@ python compute_scores.py \
     --output_csv ../results/evaluation_f1.csv
 ```
 
-## 3. Occupation & Skill Classification Pipeline
+## 3. Multi-Stage Occupation & Skill Classification Pipeline
 
 The occupation and skill classification pipeline implements the multi-stage framework with taxonomy-guided reasoning examples (TGRE), described in the [paper](https://arxiv.org/abs/2503.12989). The two tasks aim to:
 
@@ -201,7 +214,7 @@ python index_taxonomy.py \
 
 ```bash
 python index_taxonomy.py \
-    --taxonomy_file ../data/skils_en.csv \
+    --taxonomy_file ../data/skills_en.csv \
     --unit label \
     --model all-mpnet-base-v2 \
     --output_prefix ../data/skills_label_embeddings \
@@ -335,7 +348,7 @@ All TGRE-based prompt templates (e.g., `tgre*prompt.txt`) in this repository alr
 Generates grounded rationales by directly inserting the official SOC occupation descriptions into a rationale template, without invoking an LLM. This corresponds to the verbatim grounding method described in the paper.
 
 ```bash
-python .\generate_tgre.py \
+python generate_tgre.py \
     --input_csv ../data/job_titles_validation.csv \
     --input_col sentence \
     --taxonomy_csv ../data/onet-soc_2019.csv \
@@ -348,12 +361,12 @@ python .\generate_tgre.py \
 Alternatively, generates grounded rationales by prompting an LLM to paraphrase and enrich the SOC description, producing more natural and varied text. This method is exploratory and was not investigated in the paper.
 
 ```bash
-python .\generate_tgre.py \
+python generate_tgre.py \
     --input_csv ../data/job_titles_validation.csv \
     --input_col sentence \
     --taxonomy_csv ../data/onet-soc_2019.csv \
     --model gpt-3.5-turbo \
-    --n_samples 2
+    --n_samples 2 \
     --use_llm
 ```
 
