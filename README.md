@@ -156,7 +156,8 @@ The occupation and skill classification pipeline implements the multi-stage fram
 
 ### Steps Overview
 
-* **Step 0**: Generate sentence embeddings for O*NET-SOC and ESCO taxonomies and index them using FAISS for later retrieval.
+* **Step 0A**: Generate sentence embeddings for O*NET-SOC and ESCO taxonomies and index them using FAISS for later retrieval.
+* **Step 0B**: Generate Taxonomy-Guided Reasoning Examples (TGRE) and embed them as in-context demonstrations in the final prompts (optional).
 * **Step 1**: Run inference using LLMs to predict candidate SOC or skill labels.
 * **Step 2**: Retrieve top-K candidate taxonomy entries based on embedding similarity.
 * **Step 3**: Rerank candidates using an LLM to produce the final prediction.
@@ -219,6 +220,37 @@ python index_taxonomy.py \
     --model all-mpnet-base-v2 \
     --output_prefix ../data/skills_label_embeddings \
     --verbose
+```
+
+### Optional: Generate Taxonomy-Guided Reasoning Examples (TGRE)
+
+All TGRE-based prompt templates (e.g., `tgre*prompt.txt`) in this repository already include taxonomy-guided reasoning examples -- also called grounded examples -- as in-context demonstrations. You can generate additional TGREs from random validation samples by running `generate_tgre.py`.
+
+**Example: Using SOC Description Verbatim**
+
+Generates grounded rationales by directly inserting the official SOC occupation descriptions into a rationale template, without invoking an LLM. This corresponds to the verbatim grounding method described in the paper.
+
+```bash
+python generate_tgre.py \
+    --input_csv ../data/job_titles_validation.csv \
+    --input_col sentence \
+    --taxonomy_csv ../data/onet-soc_2019.csv \
+    --model gpt-3.5-turbo \
+    --n_samples 2
+```
+
+**Example: Using LLM-Generated Rationales**
+
+Alternatively, generates grounded rationales by prompting an LLM to paraphrase and enrich the SOC description, producing more natural and varied text. This method is exploratory and was not investigated in the paper.
+
+```bash
+python generate_tgre.py \
+    --input_csv ../data/job_titles_validation.csv \
+    --input_col sentence \
+    --taxonomy_csv ../data/onet-soc_2019.csv \
+    --model gpt-3.5-turbo \
+    --n_samples 2 \
+    --use_llm
 ```
 
 ### Inference
@@ -337,37 +369,6 @@ python rerank.py \
     --input_col input \
     --candidate_col candidate_label \
     --verbose
-```
-
-### Optional: Generate Taxonomy-Guided Reasoning Examples (TGRE)
-
-All TGRE-based prompt templates (e.g., `tgre*prompt.txt`) in this repository already include taxonomy-guided reasoning examples -- also called grounded examples -- as in-context demonstrations. You can generate additional TGREs from random validation samples by running `generate_tgre.py`.
-
-**Example: Using SOC Description Verbatim**
-
-Generates grounded rationales by directly inserting the official SOC occupation descriptions into a rationale template, without invoking an LLM. This corresponds to the verbatim grounding method described in the paper.
-
-```bash
-python generate_tgre.py \
-    --input_csv ../data/job_titles_validation.csv \
-    --input_col sentence \
-    --taxonomy_csv ../data/onet-soc_2019.csv \
-    --model gpt-3.5-turbo \
-    --n_samples 2
-```
-
-**Example: Using LLM-Generated Rationales**
-
-Alternatively, generates grounded rationales by prompting an LLM to paraphrase and enrich the SOC description, producing more natural and varied text. This method is exploratory and was not investigated in the paper.
-
-```bash
-python generate_tgre.py \
-    --input_csv ../data/job_titles_validation.csv \
-    --input_col sentence \
-    --taxonomy_csv ../data/onet-soc_2019.csv \
-    --model gpt-3.5-turbo \
-    --n_samples 2 \
-    --use_llm
 ```
 
 ## 4. Evaluation
