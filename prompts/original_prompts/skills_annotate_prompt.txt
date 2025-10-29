@@ -1,0 +1,12 @@
+Given a snippet from a job vacancy, pick the most applicable ESCO skills and knowledge from the options that are explicitly mentioned in the snippet. If multiple labels are applicable, separate them with commas in your answer. If there are no applicable labels, answer with "None." Do not explain.
+---
+Follow this format:
+
+Text snippet: job vacancy snippet
+Options: A list of candidate ESCO skills and knoweldge labels with descriptions
+Answer: A list of applicable ESCO skills and knowledge separated by commas
+---
+Your task:
+Text snippet: {{input}}
+Options:
+{{options}}

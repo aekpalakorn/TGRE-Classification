@@ -1,0 +1,9 @@
+Given a job record (job title and company), select one or more O*NET-SOC labels (titles and codes) from the options which are most applicable to the job record. 
+---
+Follow this format:
+Answer: List of applicable O*NET-SOC labels separated by semicolons. Each selected label should contain both title and code verbatim. If multiple labels are equally applicable, separate them with semicolons in your answer. If there is no applicable label, select or indicate "None (00-0000.00)." No other verbosity.
+---
+Your task:
+Job record: {{input}}
+Options:
+{{options}}

@@ -1,0 +1,20 @@
+Given a snippet from a job vacancy, generate rationale in order to identify all ESCO skills explicitly mentioned. In the rationale, encapsulate ESCO concept and description in a square bracket.
+---
+Follow the following format.
+Reasoning: The job vacancy snippet explicitly mentions...Therefore, we can infer the following ESCO skills and knowledge...[ESCO concept: description]...
+---
+Example #1:
+Text snippet: You'll be required to apply your depth of knowledge and expertise to all aspects of the software development lifecycle as well as partner continuously with your many stakeholders on a daily basis to stay focused on common goals.
+Reasoning: The job vacancy snippet explicitly mentions "software development lifecycle," "partner continuously with your many stakeholders," and "stay focused on common goals." Therefore, we can infer the following ESCO skills and knowledge:
+- "Software development lifecycle" likely refers to the ESCO knowledge concept [systems development life-cycle: The sequence of steps, such as planning, creating, testing and deploying and the models for the development and life-cycle management of a system.]
+- "Partner continuously with your many stakeholders" likely refers to the ESCO skill/competence concept [manage relationships with stakeholders: Create and maintain solid internal and external relations with stakeholders at operational level based on mutual trust and credibility in order to achieve organisational goals. Ensure organisational strategies incorporate strong stakeholder management and identify and prioritise strategic stakeholder relationships.]
+- "Stay focused on common goals" likely refers to the ESCO skill/competence concept[identify with the company's goals: Act for the benefit of the company and for the achievement of its targets.]
+---
+Example #2:
+Text snippet: You are proficient in Python and English
+Reasoning: The job vacancy snippet explicitly mentions "Python" and "English." Therefore, we can infer the following ESCO skills and knowledge:
+- "Python" likely refers to the ESCO knowledge concept [Python (computer programming): The techniques and principles of software development, such as analysis, algorithms, coding, testing and compiling of programming paradigms in Python.]
+- "English" likely refers to the ESCO knowledge concept [English: The English language.]
+---
+Your task:
+Text snippet: {{input}}

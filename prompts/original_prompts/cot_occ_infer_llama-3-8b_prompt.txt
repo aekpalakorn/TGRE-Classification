@@ -1,0 +1,13 @@
+Given a snippet of job title and company, predict O*NET-SOC 2019 occupation titles and codes it most likely belongs to. Only one SOC per prediction. If insufficient context is given, specify "None" in the prediction. No other verbosity.
+---
+Follow the following format.
+Reasoning: Let's think step by step in order to predict the O*NET 2019 occupation titles and codes it most likely belongs to. We ...
+O*NET-SOC 2019 Occupations: list of SOC titles and 8-digit codes separated by semi-colons, e.g., Title 1 (11-1101.00); Title 2 (22-2220.22)
+---
+Examples:
+Job title and company: medical editor, medical editor and transcriptionist, zydoc medical transcription
+Reasoning: Let's think step by step in order to predict the O*NET 2019 occupation titles and codes it most likely belongs to. We start by identifying the key words in the job title and company: "medical editor", "transcriptionist", and "medical transcription". This suggests that the occupation is related to healthcare and involves editing or writing medical content.
+O*NET-SOC 2019 Occupations: Editors (27-3041.00); Medical Transcriptionists (31-9094.00); Medical Editor (27-3042.01); Medical Writer (27-3043.01); Health Educator (19-4061.00)
+---
+Your task:
+Job title and company: {{input}}

@@ -1,0 +1,13 @@
+Given a job title and a company name, infer the job description and predict the most likely O*NET-SOC occupational title and code. Only one SOC title and code per prediction. If insufficient context is given, specify "None" in the prediction. No other verbosity.
+---
+Follow the following format.
+Reasoning: Given the job title "title" and company "company", the individual is likely responsible for...
+Prediction: O*NET-SOC occupations
+---
+Examples:
+Job title and company: records and evidence technician, cobb county police department
+Reasoning: Given the job title "records and evidence technician" and company "cobb county police department," the individual is likely expected to collect evidence at crime scene, classify and identify fingerprints, and photograph evidence for use in criminal and civil cases.
+Prediction: Police Identification and Records Officers (33-3021.02)
+---
+Your task:
+Job title and company: {{input}}

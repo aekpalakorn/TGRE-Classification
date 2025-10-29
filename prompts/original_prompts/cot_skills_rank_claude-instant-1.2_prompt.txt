@@ -1,0 +1,122 @@
+Given a snippet from a job vacancy, first generate a chain-of-thought rationale then select verbatim up to 10 most applicable ESCO skills from the options that are directly expressed in the snippet. No other verbosity.
+---
+Follow this output format.
+Reasoning: Start the rationale with "Let's think step by step in order to identify the most applicable skills from the snippet. We..."
+Skills: Ranked list of ESCO skills separated by semicolon
+---
+Example #1:
+Text snippet: performed code reviews for your teammates
+Options: 
+- work in fitness teams
+- collaborate in company's daily operations
+- risk management
+- work in assembly line teams
+- lead a team
+- set up effective working relationships with other sports players
+- craftsmanship
+- encourage teambuilding
+- capacity building
+- work as a team in a hazardous environment
+- peer group methods
+- team building
+- build team spirit
+- supervise crew
+- motivate others
+- organise supporters
+- plan the work of teams and individuals
+- social alliances
+- teamwork principles
+- conduct ICT code review
+- military drill
+- lead a team in forestry services
+- work in teams
+- stimulate creativity in the team
+- manage the security team
+- coordinate engineering teams
+- plan teamwork
+- coaching techniques
+- manage a team
+- perform inspection analysis
+- assemble an artistic team
+- encourage teams for continuous improvement
+- personnel management
+- work in a construction team
+- motivate supporters
+- collaborate with coaching team
+- create social alliances
+- establish collaborative relations
+- coach staff for running the performance
+- evaluate performance of organisational collaborators
+- communication
+- report to the team leader
+- coordinate communication within a team
+- work with supporting team in community arts programme
+- contribute to the programmer's reflection process
+- cooperate with colleagues
+- ensure positive relations within the artistic team
+- write inspection reports
+- facilitate teamwork between students
+- shape organisational teams based on competencies
+Reasoning: Let's think step by step in order to identify the most applicable skills from the snippet. We can see that the text mentions "code reviews for your teammates", which indicates reviewing code and collaborating with others.
+Skills: conduct ICT code review; teamwork principles; communication; facilitate teamwork between students; coordinate communication within a team; evaluate performance of organisational collaborators
+---
+Example #2:
+Text snippet: You are a good communicator and enjoy working in a team
+Options:
+- use communication devices
+- inter-professional communication in the psychosocial field
+- encourage teambuilding
+- stimulate creativity in the team
+- disseminate internal communications
+- coordinate communication within a team
+- lead a team
+- use therapeutic communication techniques
+- communication
+- team building
+- promote good habits to avoid communication disorders
+- disseminate messages to people
+- communication related to hearing impairment
+- teamwork principles
+- communicate with media
+- work in teams
+- manage a team
+- digital communication and collaboration
+- communication studies
+- maintain internal communication systems
+- handle communications in the food processing industry
+- plan teamwork
+- body language
+- circulate information
+- cognitive psychology
+- plan the work of teams and individuals
+- cooperate with colleagues
+- teach communication methods
+- encourage teams for continuous improvement
+- communication disorders
+- communicate by use of interpretation services
+- communication principles
+- use communication equipment
+- use communication techniques
+- communication sciences
+- facilitate teamwork between students
+- teach communication to clients
+- apply technical communication skills
+- communicate by telephone
+- advise on communication strategies
+- promote organisational communication
+- use different communication channels
+- electronic communication
+- use a complex communication system
+- communicate in healthcare
+- promote communication between parties
+- develop communications strategies
+- develop inclusive communication material
+- psychology
+- build team spirit
+Reasoning: Let's think step by step in order to identify the most applicable skills from the snippet. We are looking for skills related to communication and teamwork, as the text mentions enjoying working in a team and being a good communicator.
+Skills: communication; teamwork principles; work in teams; use communication techniques; promote communication between parties; coordinate communication within a team; build team spirit; cooperate with colleagues; lead a team; manage a team
+---
+Your task:
+Text snippet: {{input}}
+Options: 
+{{options}}

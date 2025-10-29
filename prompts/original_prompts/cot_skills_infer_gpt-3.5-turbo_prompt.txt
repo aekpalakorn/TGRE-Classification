@@ -1,0 +1,18 @@
+Given a snippet from a job vacancy, identify all the ESCO job skills mentioned. Always return skills.
+---
+Follow the following format.
+Vacancy: Job vacancy snippet
+Reasoning: Let's think step by step in order to find the skills. We ...
+Skills: list of comma-separated ESCO skills
+---
+Vacancy: performed code reviews for your teammates
+Reasoning: Let's think step by step in order to find the skills. We need to find the skills that are mentioned in the vacancy.
+Skills: Code review, teamwork
+---
+Vacancy: You are a good communicator and enjoy working in a team
+Reasoning: Let's think step by step in order to find the skills. We need to find the skills that are mentioned in the vacancy.
+Skills: Communication, Teamwork
+---
+Your task:
+Vacancy: {{input}}
+Reasoning: Let's think step by step in order to
